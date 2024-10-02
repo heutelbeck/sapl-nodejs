@@ -26,6 +26,7 @@
     "npm": "10.8.1"
   },
   "scripts": {
+    "build": "tsc",
     "test": "jest --env=node --colors --coverage test"
   },
   "devDependencies": {
