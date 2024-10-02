@@ -10,7 +10,7 @@ export class ContentFilterPredicateProvider
   implements FilterPredicateConstraintHandlerProvider
 {
   private static readonly CONSTRAINT_TYPE: string =
-    "jsonContentFilterPredicate"; //brauche ich wahrscheinich nicht, da JAVA spezifisch
+    "jsonContentFilterPredicate"; // propbably not needed
 
   private readonly objectMapper: any;
 

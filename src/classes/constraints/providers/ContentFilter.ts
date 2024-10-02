@@ -465,10 +465,10 @@ export class ContentFilter {
     newValue: any
   ): boolean {
     const keys = path.split(".");
-    const lastKey = keys.pop(); // Der letzte Schlüssel, der gesetzt werden soll
+    const lastKey = keys.pop(); // the last key is the one to be changed
     if (!lastKey) return false;
 
-    // Das Objekt navigieren, bis zum vorletzten Schlüssel
+    // get the object that contains the last key
     const lastObj = keys.reduce((acc, key) => acc && acc[key], jsonContext);
 
     if (lastObj && lastKey in lastObj) {
