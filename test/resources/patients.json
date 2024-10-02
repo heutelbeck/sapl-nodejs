@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Phocas Zephyros",
+    "icd11Code": "BA50",
+    "diagnosis": "Past myocardial infarction diagnosed by ECG or other special investigation, but currently presenting no symptoms."
+  },
+  {
+    "name": "Myrrhine Mattithyahu",
+    "icd11Code": "BB03",
+    "diagnosis": "A postnatal pathological change in form or function of one or more pulmonary veins."
+  },
+  {
+    "name": "Ilia Mamie",
+    "icd11Code": "LA10",
+    "diagnosis": "Any condition caused by failure of the ocular globes to correctly develop during the antenatal period."
+  },
+  {
+    "name": "Arnold Velibor",
+    "icd11Code": "NA0A.1",
+    "diagnosis": "Injury of muscle, fascia or tendon of head"
+  },
+  {
+    "name": "Wanjala Neptuno",
+    "icd11Code": "NC92.2 XK8G Left",
+    "diagnosis": "Fracture of shaft of tibia with or without mention of fracture of fibula"
+  },
+  {
+    "name": "Murat Taniqua",
+    "icd11Code": "PE52 XE1C6",
+    "diagnosis": "Assault by injury other than drowning while in body of water"
+  },
+  {
+    "name": "Muhamad Dimitrij",
+    "icd11Code": "4A01",
+    "diagnosis": "Primary immunodeficiencies due to disorders of adaptive immunity"
+  },
+  {
+    "name": "Shankar Lazarus",
+    "icd11Code": "7A41",
+    "diagnosis": "Obstructive sleep apnoea"
+  },
+  {
+    "name": "Sameer Merida",
+    "icd11Code": "9C60",
+    "diagnosis": "Glaucoma suspect"
+  },
+  {
+    "name": "Nedelko Iosaphat",
+    "icd11Code": "AB14",
+    "diagnosis": "Acute myringitis"
+  },
+  {
+    "name": "Auðr Neve",
+    "icd11Code": "EC21.1",
+    "diagnosis": "Genetic syndromes with abnormalities of the hair shaft"
+  },
+  {
+    "name": "Bharath Sevastian",
+    "icd11Code": "FA01.0",
+    "diagnosis": "Primary osteoarthritis of knee"
+  }
+]

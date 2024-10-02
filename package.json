@@ -1,0 +1,44 @@
+{
+  "name": "@sapl/sapl-nodejs",
+  "version": "1.0.0",
+  "description": "SAPL Node.js library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "author": {
+    "name": "Dominic Heutelbeck",
+    "email": "dominic@heutelbeck.com",
+    "url": "https://github.com/heutelbeck"
+  },
+  "license": "",
+  "keywords": [
+    "SAPL",
+    "streaming",
+    "attribute",
+    "policy ",
+    "policy language",
+    "policy Engine"
+  ],
+  "engines": {
+    "node": "^20.12.0",
+    "npm": "10.8.1"
+  },
+  "scripts": {
+    "test": "jest --env=node --colors --coverage test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/node-fetch": "^2.6.11",
+    "ts-jest": "^29.1.2"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.3.9",
+    "async": "^3.2.5",
+    "file": "^0.2.2",
+    "node-fetch": "^2.7.0",
+    "rxjs": "^7.8.1",
+    "typescript": "^5.4.3"
+  }
+}
