@@ -30,6 +30,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - name: SonarCloud Scan
+      if: github.ref == 'refs/heads/main'
       uses: SonarSource/sonarcloud-github-action@4006f663ecaf1f8093e8e4abb9227f6041f52216
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
