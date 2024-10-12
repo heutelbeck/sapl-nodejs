@@ -29,3 +29,11 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v1.10
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=heutelbeck_sapl-nodejs
+          -Dsonar.organization=heutelbeck
