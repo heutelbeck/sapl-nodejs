@@ -38,3 +38,4 @@ jobs:
           -Dsonar.projectKey=heutelbeck_sapl-nodejs
           -Dsonar.organization=heutelbeck
           -Dsonar.exclusions=**/tests/**,**/*.spec.ts,**/*.test.ts
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
