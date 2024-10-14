@@ -84,17 +84,7 @@ export class ContentFilter {
 
   private static noConditionsPresent(constraint: any) {
     const condition = constraint[ContentFilter.CONDITIONS];
-    let predicate = new Predicate((anything) => true);
-    if (condition === undefined) return predicate;
-    let conditions = <Array<object>>condition;
-
-    conditions.forEach((condition) => {
-      let newPredicate = this.conditionToPredicate(condition);
-      let oldPredicate = predicate;
-      predicate = new Predicate<object>(
-        (content) => oldPredicate.test(content) && newPredicate.test(content)
-      );
-    });
+    return condition === undefined || condition === null;
   }
 
   private static conditionToPredicate(condition: object): Predicate<object> {
@@ -162,7 +152,7 @@ export class ContentFilter {
   ): Predicate<object> {
     let value = condition[ContentFilter.VALUE];
     if (typeof value === "number")
-      return this.numberEqCondition(condition, path);
+      return this.numberNeqCondition(condition, path);
 
     if (typeof value !== "string")
       throw new AccessConstraintViolationException(
@@ -187,6 +177,19 @@ export class ContentFilter {
       let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
       return value == node;
+    });
+  }
+
+  private static numberNeqCondition(
+    condition: object,
+    path: any
+  ): Predicate<object> {
+    let value = <number>condition[ContentFilter.VALUE];
+    return new Predicate<object>((original) => {
+      path = ContentFilter.findKeyPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
+      if (typeof node !== "number") return false;
+      return value !== node;
     });
   }
 
@@ -456,7 +459,7 @@ export class ContentFilter {
 
   static getValueByPath(jsonContext: any, path: string): any {
     if (typeof jsonContext === "string") jsonContext = JSON.parse(jsonContext);
-    return path.split(".").reduce((acc, key) => acc && acc[key], jsonContext);
+    return path?.split(".").reduce((acc, key) => acc && acc[key], jsonContext);
   }
 
   static changeValueByPath(
