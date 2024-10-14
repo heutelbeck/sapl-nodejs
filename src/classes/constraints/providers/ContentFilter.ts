@@ -140,7 +140,7 @@ export class ContentFilter {
     condition: object,
     path: any
   ): Predicate<object> {
-    var value = condition[ContentFilter.VALUE];
+    let value = condition[ContentFilter.VALUE];
     if (typeof value === "number")
       return this.numberEqCondition(condition, path);
 
@@ -151,7 +151,7 @@ export class ContentFilter {
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "string") return false;
       return value === node;
     });
@@ -160,7 +160,7 @@ export class ContentFilter {
     condition: object,
     path: any
   ): Predicate<object> {
-    var value = condition[ContentFilter.VALUE];
+    let value = condition[ContentFilter.VALUE];
     if (typeof value === "number")
       return this.numberEqCondition(condition, path);
 
@@ -171,7 +171,7 @@ export class ContentFilter {
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "string") return false;
       return value !== node;
     });
@@ -181,10 +181,10 @@ export class ContentFilter {
     condition: object,
     path: any
   ): Predicate<object> {
-    var value = <number>condition[ContentFilter.VALUE];
+    let value = <number>condition[ContentFilter.VALUE];
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
       return value == node;
     });
@@ -196,11 +196,11 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    var value = <Number>condition[ContentFilter.VALUE];
+    let value = <Number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
       return <Number>node >= value;
     });
@@ -212,11 +212,11 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    var value = <Number>condition[ContentFilter.VALUE];
+    let value = <Number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
       return <Number>node <= value;
     });
@@ -228,11 +228,11 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    var value = <Number>condition[ContentFilter.VALUE];
+    let value = <Number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
       return <Number>node < value;
     });
@@ -244,11 +244,11 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    var value = <Number>condition[ContentFilter.VALUE];
+    let value = <Number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
       return <Number>node > value;
     });
@@ -267,7 +267,7 @@ export class ContentFilter {
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
-      var node = ContentFilter.getValueByPath(original, path);
+      let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "string") return false;
       return regexPattern.test(<string>(<unknown>node));
     });
@@ -327,8 +327,8 @@ export class ContentFilter {
         ContentFilter.ACTION_NOT_AN_OBJECT
       );
 
-    var path = this.getTextualValueOfActionKey(action, ContentFilter.PATH);
-    var actionType = this.getTextualValueOfActionKey(
+    let path = this.getTextualValueOfActionKey(action, ContentFilter.PATH);
+    let actionType = this.getTextualValueOfActionKey(
       action,
       ContentFilter.TYPE
     ).toLowerCase();

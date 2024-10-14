@@ -29,7 +29,7 @@ export function EnforceRecoverableIfDenied(...args: any[]): MethodDecorator {
         handleAccessDenied: true,
       });
 
-    var result: any = undefined;
+    let result: any = undefined;
 
     descriptor.value = async function (...args: any[]) {
       let remotePdp = RemotePdp.getRemotePdp();

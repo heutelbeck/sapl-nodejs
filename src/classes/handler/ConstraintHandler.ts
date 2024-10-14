@@ -15,7 +15,7 @@ export class ConstraintHandler {
     constraints: ConsumerConstraintHandlerProvider[],
     constraintObject: object[]
   ): boolean {
-    var handled = false;
+    let handled = false;
     constraintObject.forEach((constraint: any) => {
       constraints.forEach((handler: any) => {
         if (handler.prototype.isResponsible(constraint)) {

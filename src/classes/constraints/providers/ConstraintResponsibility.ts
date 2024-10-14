@@ -13,7 +13,7 @@ export class ConstraintResponsibility {
   public static isResponsible(constraint: any, requiredType: string): boolean {
     if (constraint == null || !(typeof constraint === "object")) return false;
 
-    var type = constraint[ConstraintResponsibility.TYPE];
+    const type = constraint[ConstraintResponsibility.TYPE];
 
     if (type === undefined || !(typeof type === "string")) return false;
 

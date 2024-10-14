@@ -26,7 +26,7 @@ export function EnforceTillDenied(...args: any[]): MethodDecorator {
         killIfDenied: true,
       });
 
-    var result: any = undefined;
+    let result: any = undefined;
 
     descriptor.value = async function (...args: any[]) {
       let remotePdp = RemotePdp.getRemotePdp();

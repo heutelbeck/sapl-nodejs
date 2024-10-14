@@ -32,7 +32,7 @@ export function PostEnforce(...args: any[]): MethodDecorator {
     const wrapperObservableHelper =
       DecoratorHelper.createWrapperObservableHelper({ readDataAllowed: true });
 
-    var result: any = undefined;
+    let result: any = undefined;
 
     descriptor.value = async function (...args: any[]) {
       result = originalMethod.apply(this, args);

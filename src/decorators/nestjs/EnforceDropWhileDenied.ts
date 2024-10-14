@@ -23,7 +23,7 @@ export function EnforceDropWhileDenied(...args: any[]): MethodDecorator {
     const wrapperObservableHelper =
       DecoratorHelper.createWrapperObservableHelper();
 
-    var result: any = undefined;
+    let result: any = undefined;
 
     descriptor.value = async function (...args: any[]) {
       let remotePdp = RemotePdp.getRemotePdp();
