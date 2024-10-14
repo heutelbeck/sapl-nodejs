@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { ContentFilter } from "../../../../src/classes/constraints/providers/ContentFilter";
+import { AccessConstraintViolationException } from "../../../../src/classes/constraints/providers/AccessConstraintViolationException";
 
 describe("ContentFilter", () => {
   describe("predicateFromConditions", () => {
@@ -185,6 +186,297 @@ describe("ContentFilter", () => {
       const transformedPayload = handler(payload);
 
       expect(transformedPayload).toBe(payload);
+    });
+  });
+
+  describe("noConditionsPresent", () => {
+    it("should return true when conditions are undefined", () => {
+      const constraint = {};
+      const result = ContentFilter["noConditionsPresent"](constraint);
+      expect(result).toBe(true);
+    });
+
+    it("should return true when conditions are null", () => {
+      const constraint = { conditions: null };
+      const result = ContentFilter["noConditionsPresent"](constraint);
+      expect(result).toBe(true);
+    });
+
+    it("should return false when conditions are present", () => {
+      const constraint = {
+        conditions: [{ path: "foo", type: "==", value: "bar" }],
+      };
+      const result = ContentFilter["noConditionsPresent"](constraint);
+      expect(result).toBe(false);
+    });
+  });
+
+  describe("equalsCondition", () => {
+    it("should return a predicate that evaluates to true when the value matches the string condition", () => {
+      const condition = { path: "foo", type: "==", value: "bar" };
+      const predicate = ContentFilter["equalsCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "bar" })).toBe(true);
+      expect(predicate.test({ foo: "baz" })).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to true when the value matches the number condition", () => {
+      const condition = { path: "foo", type: "==", value: 42 };
+      const predicate = ContentFilter["equalsCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 42 })).toBe(true);
+      expect(predicate.test({ foo: 43 })).toBe(false);
+    });
+
+    it("should throw an exception when the value is not a string or number", () => {
+      const condition = { path: "foo", type: "==", value: { bar: "baz" } };
+
+      expect(() => {
+        ContentFilter["equalsCondition"](condition, "foo");
+      }).toThrow(
+        new AccessConstraintViolationException(
+          ContentFilter["NOT_A_VALID_PREDICATE_CONDITION"] + condition
+        )
+      );
+    });
+
+    it("should return a predicate that evaluates to false when the path does not exist", () => {
+      const condition = { path: "foo", type: "==", value: "bar" };
+      const predicate = ContentFilter["equalsCondition"](condition, "foo");
+
+      expect(predicate.test({})).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to false when the value at the path is not a string", () => {
+      const condition = { path: "foo", type: "==", value: "bar" };
+      const predicate = ContentFilter["equalsCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 42 })).toBe(false);
+    });
+  });
+
+  describe("notEqualsCondition", () => {
+    it("should return a predicate that evaluates to true when the value does not match the string condition", () => {
+      const condition = { path: "foo", type: "!=", value: "bar" };
+      const predicate = ContentFilter["notEqualsCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "baz" })).toBe(true);
+      expect(predicate.test({ foo: "bar" })).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to true when the value does not match the number condition", () => {
+      const condition = { path: "foo", type: "!=", value: 42 };
+      const predicate = ContentFilter["notEqualsCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 43 })).toBe(true);
+      expect(predicate.test({ foo: 42 })).toBe(false);
+    });
+
+    it("should throw an exception when the value is not a string or number", () => {
+      const condition = { path: "foo", type: "!=", value: { bar: "baz" } };
+
+      expect(() => {
+        ContentFilter["notEqualsCondition"](condition, "foo");
+      }).toThrow(
+        new AccessConstraintViolationException(
+          ContentFilter["NOT_A_VALID_PREDICATE_CONDITION"] + condition
+        )
+      );
+    });
+
+    it("should return a predicate that evaluates to false when the value at the path is not a string", () => {
+      const condition = { path: "foo", type: "!=", value: "bar" };
+      const predicate = ContentFilter["notEqualsCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 42 })).toBe(false);
+    });
+  });
+
+  describe("geqCondition", () => {
+    it("should return a predicate that evaluates to true when the value is greater than or equal to the condition", () => {
+      const condition = { path: "foo", type: ">=", value: 10 };
+      const predicate = ContentFilter["geqCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 15 })).toBe(true);
+      expect(predicate.test({ foo: 10 })).toBe(true);
+      expect(predicate.test({ foo: 5 })).toBe(false);
+    });
+
+    it("should throw an exception when the value is not a number", () => {
+      const condition = { path: "foo", type: ">=", value: "bar" };
+
+      expect(() => {
+        ContentFilter["geqCondition"](condition, "foo");
+      }).toThrow(
+        new AccessConstraintViolationException(
+          ContentFilter["NOT_A_VALID_PREDICATE_CONDITION"] + condition
+        )
+      );
+    });
+
+    it("should return a predicate that evaluates to false when the path does not exist", () => {
+      const condition = { path: "foo", type: ">=", value: 10 };
+      const predicate = ContentFilter["geqCondition"](condition, "foo");
+
+      expect(predicate.test({})).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to false when the value at the path is not a number", () => {
+      const condition = { path: "foo", type: ">=", value: 10 };
+      const predicate = ContentFilter["geqCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "bar" })).toBe(false);
+    });
+  });
+  describe("leqCondition", () => {
+    it("should return a predicate that evaluates to true when the value is less than or equal to the condition", () => {
+      const condition = { path: "foo", type: "<=", value: 10 };
+      const predicate = ContentFilter["leqCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 5 })).toBe(true);
+      expect(predicate.test({ foo: 10 })).toBe(true);
+      expect(predicate.test({ foo: 15 })).toBe(false);
+    });
+
+    it("should throw an exception when the value is not a number", () => {
+      const condition = { path: "foo", type: "<=", value: "bar" };
+
+      expect(() => {
+        ContentFilter["leqCondition"](condition, "foo");
+      }).toThrow(
+        new AccessConstraintViolationException(
+          ContentFilter["NOT_A_VALID_PREDICATE_CONDITION"] + condition
+        )
+      );
+    });
+
+    it("should return a predicate that evaluates to false when the path does not exist", () => {
+      const condition = { path: "foo", type: "<=", value: 10 };
+      const predicate = ContentFilter["leqCondition"](condition, "foo");
+
+      expect(predicate.test({})).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to false when the value at the path is not a number", () => {
+      const condition = { path: "foo", type: "<=", value: 10 };
+      const predicate = ContentFilter["leqCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "bar" })).toBe(false);
+    });
+  });
+  describe("ltCondition", () => {
+    it("should return a predicate that evaluates to true when the value is less than the condition", () => {
+      const condition = { path: "foo", type: "<", value: 10 };
+      const predicate = ContentFilter["ltCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 5 })).toBe(true);
+      expect(predicate.test({ foo: 10 })).toBe(false);
+      expect(predicate.test({ foo: 15 })).toBe(false);
+    });
+
+    it("should throw an exception when the value is not a number", () => {
+      const condition = { path: "foo", type: "<", value: "bar" };
+
+      expect(() => {
+        ContentFilter["ltCondition"](condition, "foo");
+      }).toThrow(
+        new AccessConstraintViolationException(
+          ContentFilter["NOT_A_VALID_PREDICATE_CONDITION"] + condition
+        )
+      );
+    });
+
+    it("should return a predicate that evaluates to false when the path does not exist", () => {
+      const condition = { path: "foo", type: "<", value: 10 };
+      const predicate = ContentFilter["ltCondition"](condition, "foo");
+
+      expect(predicate.test({})).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to false when the value at the path is not a number", () => {
+      const condition = { path: "foo", type: "<", value: 10 };
+      const predicate = ContentFilter["ltCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "bar" })).toBe(false);
+    });
+  });
+  describe("gtCondition", () => {
+    it("should return a predicate that evaluates to true when the value is greater than the condition", () => {
+      const condition = { path: "foo", type: ">", value: 10 };
+      const predicate = ContentFilter["gtCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 15 })).toBe(true);
+      expect(predicate.test({ foo: 10 })).toBe(false);
+      expect(predicate.test({ foo: 5 })).toBe(false);
+    });
+
+    it("should throw an exception when the value is not a number", () => {
+      const condition = { path: "foo", type: ">", value: "bar" };
+
+      expect(() => {
+        ContentFilter["gtCondition"](condition, "foo");
+      }).toThrow(
+        new AccessConstraintViolationException(
+          ContentFilter["NOT_A_VALID_PREDICATE_CONDITION"] + condition
+        )
+      );
+    });
+
+    it("should return a predicate that evaluates to false when the path does not exist", () => {
+      const condition = { path: "foo", type: ">", value: 10 };
+      const predicate = ContentFilter["gtCondition"](condition, "foo");
+
+      expect(predicate.test({})).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to false when the value at the path is not a number", () => {
+      const condition = { path: "foo", type: ">", value: 10 };
+      const predicate = ContentFilter["gtCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "bar" })).toBe(false);
+    });
+  });
+  describe("regexCondition", () => {
+    it("should return a predicate that evaluates to true when the value matches the regex pattern", () => {
+      const condition = { path: "foo", type: "=~", value: "^bar$" };
+      const predicate = ContentFilter["regexCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "bar" })).toBe(true);
+      expect(predicate.test({ foo: "baz" })).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to false when the value does not match the regex pattern", () => {
+      const condition = { path: "foo", type: "=~", value: "^bar$" };
+      const predicate = ContentFilter["regexCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: "barbaz" })).toBe(false);
+      expect(predicate.test({ foo: "bazbar" })).toBe(false);
+    });
+
+    it("should throw an exception when the value is not a string", () => {
+      const condition = { path: "foo", type: "=~", value: 42 };
+
+      expect(() => {
+        ContentFilter["regexCondition"](condition, "foo");
+      }).toThrow(
+        new AccessConstraintViolationException(
+          ContentFilter["NOT_A_VALID_PREDICATE_CONDITION"] + condition
+        )
+      );
+    });
+
+    it("should return a predicate that evaluates to false when the path does not exist", () => {
+      const condition = { path: "foo", type: "=~", value: "^bar$" };
+      const predicate = ContentFilter["regexCondition"](condition, "foo");
+
+      expect(predicate.test({})).toBe(false);
+    });
+
+    it("should return a predicate that evaluates to false when the value at the path is not a string", () => {
+      const condition = { path: "foo", type: "=~", value: "^bar$" };
+      const predicate = ContentFilter["regexCondition"](condition, "foo");
+
+      expect(predicate.test({ foo: 42 })).toBe(false);
     });
   });
 });
