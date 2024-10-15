@@ -42,11 +42,8 @@ export class ExponentialBackoffStream extends Readable {
         let newDecision = new Decision(
           JSON.parse(new TextDecoder().decode(data))
         );
-        if (!this.decision) {
-          this.decision = newDecision;
-          self.emit("data", data);
-        } else if (
-          // Check if the decision has changed
+        if (
+          !this.decision ||
           JSON.stringify(this.decision) !== JSON.stringify(newDecision)
         ) {
           this.decision = newDecision;
