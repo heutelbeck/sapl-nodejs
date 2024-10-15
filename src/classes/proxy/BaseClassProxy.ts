@@ -2,7 +2,9 @@
  * Proxy-Class to store an instance of a class which will be initialized later.
  */
 export class BaseClassProxy {
-  static readonly classReference: any;
+  // use of Pragma or build will fail with the following error: Cannot assign to 'classReference' because it is a read-only property.
+  // NOSONAR
+  static classReference: any;
 
   /**
    * Create a proxy for the given instance.
