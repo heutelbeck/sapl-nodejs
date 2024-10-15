@@ -182,25 +182,7 @@ export class RemotePdp implements Pdp {
     let stream: NodeJS.ReadableStream;
     await this._fetch(body, this._buildUrl(url, PdpType.MULTI))
       .then((response) => {
-        /* istanbul ignore next */
-        if (process.env.NODE_ENV === "development") {
-          console.log(response.status);
-        }
-
-        /* istanbul ignore next */ // tested but cause of the delay not in coverage
-        if (this.exponentialBackoffStream) {
-          // Create a new Readable stream for previousDecidisionStream
-          this.exponentialBackoffStream.emitDecisionStream(
-            response.body as Readable
-          );
-          return;
-        }
-
-        if (response.status === 200) {
-          stream = response.body;
-        }
-
-        this.logError(response);
+        stream = this.handleFetchResponse(response);
       })
       .catch(async (error) => {
         console.error(error);
@@ -233,25 +215,7 @@ export class RemotePdp implements Pdp {
     let stream: ExponentialBackoffStream | NodeJS.ReadableStream;
     await this._fetch(body, this._buildUrl(url, PdpType.SINGLE))
       .then((response) => {
-        /* istanbul ignore next */
-        if (process.env.NODE_ENV === "development") {
-          console.log(response.status);
-        }
-
-        /* istanbul ignore next */ // tested but cause of the delay not in coverage
-        if (this.exponentialBackoffStream) {
-          // Create a new Readable stream for previousDecidisionStream
-          this.exponentialBackoffStream.emitDecisionStream(
-            response.body as Readable
-          );
-          return;
-        }
-
-        if (response.status === 200) {
-          stream = response.body;
-        }
-
-        this.logError(response);
+        stream = this.handleFetchResponse(response);
       })
       .catch(async (error) => {
         console.error(error);
@@ -288,24 +252,7 @@ export class RemotePdp implements Pdp {
     ) {
       await this._fetch(body, this._buildUrl(url, PdpType.SINGLE_STREAM))
         .then((response) => {
-          /* istanbul ignore next */
-          if (process.env.NODE_ENV === "development") {
-            console.log(response.status);
-          }
-
-          /* istanbul ignore next */ // tested but cause of the delay not in coverage
-          if (this.exponentialBackoffStream) {
-            // Create a new Readable stream for previousDecidisionStream
-            this.exponentialBackoffStream.emitDecisionStream(
-              response.body as Readable
-            );
-            return;
-          }
-
-          if (response.status === 200) {
-            stream = response.body;
-          }
-          this.logError(response);
+          stream = this.handleFetchResponse(response);
         })
         .catch(async (error) => {
           console.error(error);
@@ -324,6 +271,28 @@ export class RemotePdp implements Pdp {
         });
       return stream;
     }
+  }
+
+  private handleFetchResponse(response: fetch.Response) {
+    /* istanbul ignore next */
+    if (process.env.NODE_ENV === "development") {
+      console.log(response.status);
+    }
+
+    /* istanbul ignore next */ // tested but cause of the delay not in coverage
+    if (this.exponentialBackoffStream) {
+      // Create a new Readable stream for previousDecidisionStream
+      this.exponentialBackoffStream.emitDecisionStream(
+        response.body as Readable
+      );
+      return;
+    }
+
+    if (response.status === 200) {
+      return response.body;
+    }
+
+    this.logError(response);
   }
 
   private logError(response: fetch.Response) {

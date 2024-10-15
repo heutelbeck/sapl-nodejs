@@ -14,6 +14,7 @@ import {
 import { debug } from "console";
 import { ExponentialBackoffStream } from "../../src/classes/helper/ExponentialBackoffStream";
 import fetch from "node-fetch";
+import { Readable } from "stream";
 
 let server: Server;
 
@@ -203,6 +204,46 @@ describe("RemotePdp", () => {
       process.env.NODE_ENV = "test";
 
       expect(consoleErrorSpy).toHaveBeenCalled();
+    });
+  });
+  describe("handleFetchResponse", () => {
+    it("should log the response status in development mode", () => {
+      const response = {
+        status: 200,
+        body: new Readable(),
+      } as unknown as fetch.Response;
+      const consoleLogSpy = jest.spyOn(console, "log");
+
+      process.env.NODE_ENV = "development";
+      RemotePdp.create()["handleFetchResponse"](response);
+      process.env.NODE_ENV = "test";
+
+      expect(consoleLogSpy).toHaveBeenCalledWith(200);
+    });
+
+    it("should return the response body if status is 200", () => {
+      const response = {
+        status: 200,
+        body: new Readable(),
+      } as unknown as fetch.Response;
+
+      const result = RemotePdp.create()["handleFetchResponse"](response);
+
+      expect(result).toBe(response.body);
+    });
+
+    it("should log an error if status is not 200", () => {
+      const response = {
+        status: 404,
+        body: new Readable(),
+      } as unknown as fetch.Response;
+      const consoleErrorSpy = jest.spyOn(console, "error");
+
+      process.env.NODE_ENV = "development";
+      RemotePdp.create()["handleFetchResponse"](response);
+      process.env.NODE_ENV = "test";
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith("Fehler:", 404);
     });
   });
 });
