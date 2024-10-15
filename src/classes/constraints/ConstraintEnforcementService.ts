@@ -819,13 +819,14 @@ export class ConstraintEnforcementService {
    * @returns Result of handler
    */
   private obligation(handlers: (t) => void): (t) => void {
-    return (t) => {
-      try {
-        return handlers(t);
-      } catch (error) {
-        throw error;
-      }
-    };
+    // return (t) => {
+    //   try {
+    //     return handlers(t);
+    //   } catch (error) {
+    //     throw error;
+    //   }
+    // };
+    return (t) => handlers(t);
   }
 
   /**
@@ -834,13 +835,14 @@ export class ConstraintEnforcementService {
    * @returns Result of handler
    */
   private advice(handlers: (t) => void): (t) => void {
-    return (t) => {
-      try {
-        return handlers(t);
-      } catch (error) {
-        throw error;
-      }
-    };
+    // return (t) => {
+    //   try {
+    //     return handlers(t);
+    //   } catch (error) {
+    //     throw error;
+    //   }
+    // };
+    return (t) => handlers(t);
   }
 
   /**
@@ -849,13 +851,14 @@ export class ConstraintEnforcementService {
    * @returns Result of handler
    */
   private obligationRunnable(handlers: () => void): () => void {
-    return () => {
-      try {
-        handlers();
-      } catch (error) {
-        throw error;
-      }
-    };
+    // return () => {
+    //   try {
+    //     handlers();
+    //   } catch (error) {
+    //     throw error;
+    //   }
+    // };
+    return () => handlers();
   }
 
   /**
@@ -864,12 +867,13 @@ export class ConstraintEnforcementService {
    * @returns Result of handler
    */
   private adviceRunnable(handlers: () => void): () => void {
-    return () => {
-      try {
-        handlers();
-      } catch (error) {
-        throw error;
-      }
-    };
+    // return () => {
+    //   try {
+    //     handlers();
+    //   } catch (error) {
+    //     throw error;
+    //   }
+    // };
+    return () => handlers();
   }
 }
