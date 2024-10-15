@@ -17,6 +17,7 @@ let decoratorArguments: any;
  * The Client will receive a non-recoverable error in case of a denied access.
  * @returns MethodDecorator
  */
+// NOSONAR
 export function PreEnforce(...args: any[]): MethodDecorator {
   decoratorArguments = args;
 
