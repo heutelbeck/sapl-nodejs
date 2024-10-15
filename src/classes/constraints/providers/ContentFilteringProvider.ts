@@ -50,6 +50,7 @@ export class ContentFilteringProvider
    * @returns The comparison result.
    */
   compareTo(other: HasPriority): number {
+    // NOSONAR
     return other.getPriority() < this.getPriority()
       ? -1
       : other.getPriority() === this.getPriority()
