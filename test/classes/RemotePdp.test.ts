@@ -39,7 +39,8 @@ describe("RemotePdp", () => {
         .host(url)
         .port(4003)
         .basicAuth(username, password)
-        .bearerToken(accessToken);
+        .bearerToken(accessToken)
+        .apiKey("testApiKey");
 
       expect(remotePdp).toBeInstanceOf(RemotePdp);
       expect(remotePdp).toBe(RemotePdp.getRemotePdp());

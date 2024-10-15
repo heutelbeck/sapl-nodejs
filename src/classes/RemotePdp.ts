@@ -17,7 +17,7 @@ import { ConstraintEnforcementService } from "./constraints/ConstraintEnforcemen
 export class RemotePdp implements Pdp {
   private username: string;
   private password: string;
-  private apiKey: string;
+  private apiKeyToken: string;
   private static remotePdp: RemotePdp;
   private url: string;
   private accessToken: string;
@@ -137,12 +137,22 @@ export class RemotePdp implements Pdp {
   }
 
   /**
-   * Set the API key for the request.
-   * @param key The API key for the request
+   * Set the Bearer Token for the request.
+   * @param key The Bearer Token for the request
    * @returns RemotePdp
    */
   public bearerToken(token: string) {
     this.accessToken = token;
+    return this;
+  }
+
+  /**
+   * Set the API key for the request.
+   * @param key The API key for the request
+   * @returns RemotePdp
+   */
+  public apiKey(key: string) {
+    this.apiKeyToken = key;
     return this;
   }
 
@@ -376,9 +386,9 @@ export class RemotePdp implements Pdp {
    * @returns The headers object for the fetch request.
    */
   private _buildFetchHeader() {
-    if (this.accessToken || this.apiKey) {
+    if (this.accessToken || this.apiKeyToken) {
       const accessKey =
-        this.accessToken !== "" ? this.accessToken : this.apiKey;
+        this.accessToken !== "" ? this.accessToken : this.apiKeyToken;
 
       return {
         "Content-Type": "application/json",
