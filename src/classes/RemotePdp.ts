@@ -399,9 +399,13 @@ export class RemotePdp implements Pdp {
         Authorization: `Bearer ${accessKey}`,
       };
     } else {
+      const credentials = `${this.username}:${this.password}`;
+      const encodedCredentials = btoa(credentials);
+      const authorizationHeader = `Basic ${encodedCredentials}`;
+
       return {
         "Content-Type": "application/json",
-        Authorization: `Basic ${btoa(`${this.username}:${this.password}`)}`,
+        Authorization: authorizationHeader,
       };
     }
   }
