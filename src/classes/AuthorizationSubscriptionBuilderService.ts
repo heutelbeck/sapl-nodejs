@@ -106,15 +106,25 @@ export class AuthorizationSubscriptionBuilderService {
     if (decoratorArguments.length === 0) {
       return methodName;
     }
-    return Object.assign(
-      { name: methodName },
-      AuthorizationSubscriptionBuilderService.getAttributeFromDecoratorArguments(
+    // SonarCloud: Use an object spread instead of `Object.assign` eg: `{ ...foo }`.
+    // return Object.assign(
+    //   { name: methodName },
+    //   AuthorizationSubscriptionBuilderService.getAttributeFromDecoratorArguments(
+    //     decoratorArguments,
+    //     "action",
+    //     clazz,
+    //     methodName
+    //   )
+    // );
+    return {
+      name: methodName,
+      ...AuthorizationSubscriptionBuilderService.getAttributeFromDecoratorArguments(
         decoratorArguments,
         "action",
         clazz,
         methodName
-      )
-    );
+      ),
+    };
   }
 
   /**
