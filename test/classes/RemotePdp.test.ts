@@ -3,9 +3,17 @@ import { AuthorizationManager } from "../../src/classes/AuthorizationManager";
 import { AuthorizationSubscription } from "../../src/classes/AuthorizationSubscription";
 import { ConstraintEnforcementService } from "../../src/classes/constraints/ConstraintEnforcementService";
 import { RemotePdp } from "../../src/classes/RemotePdp";
-import { describe, expect, it, beforeEach, afterEach } from "@jest/globals";
+import {
+  describe,
+  expect,
+  it,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import { debug } from "console";
 import { ExponentialBackoffStream } from "../../src/classes/helper/ExponentialBackoffStream";
+import fetch from "node-fetch";
 
 let server: Server;
 
@@ -183,6 +191,18 @@ describe("RemotePdp", () => {
       expect(multiResult).toBeInstanceOf(ExponentialBackoffStream);
 
       RemotePdp.destroy();
+    });
+  });
+  describe("logError", () => {
+    it("should log an error message when response status is not 200", () => {
+      const response = { status: 404 } as fetch.Response;
+      const consoleErrorSpy = jest.spyOn(console, "error");
+
+      process.env.NODE_ENV = "development";
+      RemotePdp.create()["logError"](response);
+      process.env.NODE_ENV = "test";
+
+      expect(consoleErrorSpy).toHaveBeenCalled();
     });
   });
 });

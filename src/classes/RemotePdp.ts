@@ -200,11 +200,7 @@ export class RemotePdp implements Pdp {
           stream = response.body;
         }
 
-        if (response.status !== 200) {
-          if (process.env.NODE_ENV === "development") {
-            console.error("Fehler:", response.status);
-          }
-        }
+        this.logError(response);
       })
       .catch(async (error) => {
         console.error(error);
@@ -255,11 +251,7 @@ export class RemotePdp implements Pdp {
           stream = response.body;
         }
 
-        if (response.status !== 200) {
-          if (process.env.NODE_ENV === "development") {
-            console.error("Fehler:", response.status);
-          }
-        }
+        this.logError(response);
       })
       .catch(async (error) => {
         console.error(error);
@@ -313,11 +305,7 @@ export class RemotePdp implements Pdp {
           if (response.status === 200) {
             stream = response.body;
           }
-          if (response.status !== 200) {
-            if (process.env.NODE_ENV === "development") {
-              console.error("Fehler:", response.status);
-            }
-          }
+          this.logError(response);
         })
         .catch(async (error) => {
           console.error(error);
@@ -335,6 +323,14 @@ export class RemotePdp implements Pdp {
           }, this.exponentialBackoff);
         });
       return stream;
+    }
+  }
+
+  private logError(response: fetch.Response) {
+    if (response.status !== 200) {
+      if (process.env.NODE_ENV === "development") {
+        console.error("Fehler:", response.status);
+      }
     }
   }
 
