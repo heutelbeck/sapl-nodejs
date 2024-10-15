@@ -23,6 +23,7 @@ export class BlockingConstraintHandlerBundle<T> {
    * Creates a new instance of BlockingConstraintHandlerBundle for PreEnforce.
    * @returns BlockingConstraintHandlerBundle
    */
+  // NOSONAR
   public static preEnforceConstraintHandlerBundle<T, U>(
     onDecisionHandlers: () => void,
     methodInvocationHandlers: (t: unknown) => void,

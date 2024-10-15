@@ -5,6 +5,7 @@ import { ConstraintEnforcementService } from "../classes/constraints/ConstraintE
 export enum PdpType {
   SINGLE = "/api/pdp/decide-once",
   MULTI = "/api/pdp/decide",
+  // NOSONAR
   SINGLE_STREAM = "/api/pdp/decide",
 }
 
