@@ -349,7 +349,8 @@ export class RemotePdp implements Pdp {
    * @returns URL with decisionEndpoint
    */
   private _buildUrl(url: string, decisionEndpoint: PdpType) {
-    return (url !== undefined ? url : this.url) + decisionEndpoint;
+    // return (url !== undefined ? url : this.url) + decisionEndpoint;
+    return (url ?? this.url) + decisionEndpoint;
   }
 
   /**
