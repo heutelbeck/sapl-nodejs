@@ -46,7 +46,8 @@ export class RemotePdp implements Pdp {
     if (RemotePdp.remotePdp instanceof RemotePdp) {
       return RemotePdp.remotePdp;
     } else {
-      return (RemotePdp.remotePdp = new RemotePdp());
+      RemotePdp.remotePdp = new RemotePdp();
+      return RemotePdp.remotePdp;
     }
   }
 
