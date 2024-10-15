@@ -138,7 +138,7 @@ export class AuthorizationSubscription
     } else if (typeof subject === "object") {
       this.subject = subject;
     } else {
-      this.subject = subject ? subject : OsHelper.getOsUsername();
+      this.subject = subject || OsHelper.getOsUsername();
     }
     /**
      * Check if the action is an array or a single value
