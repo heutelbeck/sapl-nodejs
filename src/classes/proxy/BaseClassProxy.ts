@@ -2,7 +2,7 @@
  * Proxy-Class to store an instance of a class which will be initialized later.
  */
 export class BaseClassProxy {
-  static classReference: any;
+  static readonly classReference: any;
 
   /**
    * Create a proxy for the given instance.
