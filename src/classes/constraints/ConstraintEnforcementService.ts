@@ -508,7 +508,6 @@ export class ConstraintEnforcementService {
   }
 
   private replaceHandler(resource: any) {
-    //TODO check how this method is woriking in spring
     if (resource === "") {
       return FunctionUtil.sink();
     }

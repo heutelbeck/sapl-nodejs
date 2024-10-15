@@ -148,7 +148,7 @@ export class AuthorizationSubscription
     } else if (typeof action === "object") {
       this.action = action;
     } else {
-      this.action = action.toString(); //TODO usefully default value?
+      this.action = action.toString();
     }
     /**
      * Check if the resource is an array or a single value
@@ -158,7 +158,7 @@ export class AuthorizationSubscription
     } else if (typeof resource === "object") {
       this.resource = resource;
     } else {
-      this.resource = resource.toString(); //TODO usefully default value?
+      this.resource = resource.toString();
     }
 
     this.authorizationSubscriptionType = AuthorizationSubscriptionType.MULTI;

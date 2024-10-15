@@ -79,7 +79,6 @@ export function PreEnforce(
                 );
               }
 
-              //TODO Wert muss verändert zurückgegeben werden --> nest
               result = originalMethod.apply(this, args);
 
               // Check if the result is a Promise
