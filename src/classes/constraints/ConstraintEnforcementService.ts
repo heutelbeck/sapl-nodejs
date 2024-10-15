@@ -2,7 +2,7 @@ import { FunctionUtil } from "./FunctionUtil";
 import { Decision } from "../../interfaces/Decision";
 import {
   RunnableConstraintHandlerProvider,
-  Event as Event,
+  Event,
 } from "../../interfaces/constraints/RunnableConstraintHandlerProvider";
 import { ContentFilteringProvider } from "./providers/ContentFilteringProvider";
 import { ReactiveConstraintHandlerBundle } from "./ReactiveConstraintHandlerBundle";
