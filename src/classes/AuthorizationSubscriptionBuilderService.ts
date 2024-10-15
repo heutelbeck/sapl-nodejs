@@ -243,6 +243,7 @@ export class AuthorizationSubscriptionBuilderService {
    * @param action The action object
    * @param resource The resource object
    */
+  // NOSONAR
   private static checkForValueInOtherObject(
     subject: object,
     action: object,
