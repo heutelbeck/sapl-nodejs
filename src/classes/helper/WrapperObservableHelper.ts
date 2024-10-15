@@ -9,9 +9,9 @@ import { BlockingConstraintHandlerBundle } from "../constraints/BlockingConstrai
  * based on the decision of the PDP.
  */
 export class WrapperObservableHelper<T> extends Observable<T> {
-  private killIfDenied: boolean;
+  private readonly killIfDenied: boolean;
+  private readonly bHandleAccessDenied: boolean;
   private readDataAllowed: boolean;
-  private bHandleAccessDenied: boolean;
   private reactiveBundle: ReactiveConstraintHandlerBundle<T>;
   private blockingBundle: BlockingConstraintHandlerBundle<T>;
   private sourceObservable?: Observable<T>;

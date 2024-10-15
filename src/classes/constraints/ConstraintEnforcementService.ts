@@ -19,23 +19,23 @@ import { MethodInvocationConstraintHandlerProvider } from "../../interfaces/cons
 
 export class ConstraintEnforcementService {
   // prettier-ignore
-  private registeredOnDecisionObligationHandlersContainer: any[] = [];
+  private readonly registeredOnDecisionObligationHandlersContainer: any[] = [];
   // prettier-ignore
-  private registeredMethodInvocationHandlersContainer: MethodInvocationConstraintHandlerProvider[] = [];
+  private readonly registeredMethodInvocationHandlersContainer: MethodInvocationConstraintHandlerProvider[] = [];
   // prettier-ignore
-  private registeredOnNextHandlersContainer: ConsumerConstraintHandlerProvider[] = [];
+  private readonly registeredOnNextHandlersContainer: ConsumerConstraintHandlerProvider[] = [];
   // prettier-ignore
-  private registeredOnMapNextHandlersContainer: MappingConstraintHandlerProvider[] = [];
-  private registeredOnErrorHandlersContainer: ErrorHandlerProvider[] = [];
+  private readonly registeredOnMapNextHandlersContainer: MappingConstraintHandlerProvider[] = [];
+  private readonly registeredOnErrorHandlersContainer: ErrorHandlerProvider[] = [];
   // prettier-ignore
-  private registeredMapErrorHandlersContainer: ErrorMappingConstraintHandlerProvider[] = [];
+  private readonly registeredMapErrorHandlersContainer: ErrorMappingConstraintHandlerProvider[] = [];
   // prettier-ignore
-  private registeredFilterConstraintHandlersContainer: FilterPredicateConstraintHandlerProvider[] = [];
+  private readonly registeredFilterConstraintHandlersContainer: FilterPredicateConstraintHandlerProvider[] = [];
   // prettier-ignore
-  private registeredSubscriptionHandlersContainer: SubscriptionHandlerProvider[] = [];
-  private registeredRequestHandlerContainer: RequestHandlerProvider[] = [];
+  private readonly registeredSubscriptionHandlersContainer: SubscriptionHandlerProvider[] = [];
+  private readonly registeredRequestHandlerContainer: RequestHandlerProvider[] = [];
   // prettier-ignore
-  private registeredRunnableHandlersForSignalContainer: RunnableConstraintHandlerProvider[] = [];
+  private readonly registeredRunnableHandlersForSignalContainer: RunnableConstraintHandlerProvider[] = [];
   private onDecisionObligationHandlersContainer: any[] = [];
   // prettier-ignore
   private methodInvocationHandlersContainer: MethodInvocationConstraintHandlerProvider[] = [];

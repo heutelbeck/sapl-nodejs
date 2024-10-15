@@ -7,14 +7,14 @@ import { Decision as DecisionInterface } from "../interfaces/Decision";
 export class Decision implements DecisionInterface {
   public static readonly DECISION = "decision";
 
-  private action: string;
-  private subject: object;
-  private resource: string;
-  private environment: object;
-  private decision: PdpReturnStatus;
+  private readonly action: string;
+  private readonly subject: object;
+  private readonly resource: string;
+  private readonly environment: object;
+  private readonly decision: PdpReturnStatus;
 
-  private advices: object[];
-  private obligations: object[];
+  private readonly advices: object[];
+  private readonly obligations: object[];
 
   /**
    * Constructor for the Decision class.

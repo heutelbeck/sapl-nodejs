@@ -9,9 +9,9 @@ import { ReactiveConstraintHandlerBundle } from "../constraints/ReactiveConstrai
  * based on the decision of the PDP.
  */
 export class WrapperStreamHelper extends Transform {
-  private killIfDenied: boolean;
+  private readonly killIfDenied: boolean;
+  private readonly bHandleAccessDenied: boolean;
   private readDataAllowed: boolean;
-  private bHandleAccessDenied: boolean;
   private bundle: ReactiveConstraintHandlerBundle<any>;
 
   /**

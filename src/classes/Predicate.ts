@@ -7,7 +7,7 @@ import { TextHelper } from "./helper/TextHelper";
  * For more information, see the [article about Java Predicate](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html).
  */
 export class Predicate<T> {
-  private predicate: (arg: T) => boolean;
+  private readonly predicate: (arg: T) => boolean;
 
   /**
    * Constructor for the Predicate class.

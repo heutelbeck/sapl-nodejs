@@ -9,14 +9,14 @@ export class BlockingConstraintHandlerBundle<T> {
    * Creates a new instance of BlockingConstraintHandlerBundle.
    */
   constructor(
-    private onDecisionHandlers: () => void,
-    private methodInvocationHandlers: (t: unknown) => void,
-    private doOnNextHandlers: (value: T) => void,
-    private onNextMapHandlers: (value: T) => T,
-    private doOnErrorHandlers: (error: any) => void,
-    private onErrorMapHandlers: (error: any) => any,
-    private filterPredicateHandlers: Predicate<object>,
-    private replaceResourceHandler: (value: T) => T
+    private readonly onDecisionHandlers: () => void,
+    private readonly methodInvocationHandlers: (t: unknown) => void,
+    private readonly doOnNextHandlers: (value: T) => void,
+    private readonly onNextMapHandlers: (value: T) => T,
+    private readonly doOnErrorHandlers: (error: any) => void,
+    private readonly onErrorMapHandlers: (error: any) => any,
+    private readonly filterPredicateHandlers: Predicate<object>,
+    private readonly replaceResourceHandler: (value: T) => T
   ) {}
 
   /**

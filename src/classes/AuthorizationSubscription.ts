@@ -10,7 +10,7 @@ export class AuthorizationSubscription
   private subject: any;
   private action: string;
   private resource: string;
-  private environment: string;
+  private readonly environment: string;
   private subjects: string[];
   private actions: string[];
   private resources: string[];

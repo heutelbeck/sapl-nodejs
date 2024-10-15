@@ -19,18 +19,18 @@ import { AuthorizationSubscriptionBuilderService } from "../AuthorizationSubscri
  * Helper class for decorators.
  */
 export class DecoratorHelper {
-  private static obligationHandled: boolean;
-  private static preEnforceArguments: DecoratorCustomizing = [];
-  private static preEnforceProxy: ProxyConstructor;
-  private static postEnforceArguments: DecoratorCustomizing = [];
-  private static postEnforceProxy: ProxyConstructor;
+  private static readonly obligationHandled: boolean;
+  private static readonly preEnforceArguments: DecoratorCustomizing = [];
+  private static readonly preEnforceProxy: ProxyConstructor;
+  private static readonly postEnforceArguments: DecoratorCustomizing = [];
+  private static readonly postEnforceProxy: ProxyConstructor;
   private static postEnforceQueryResult: any;
-  private static enforceTillDeniedArguments: DecoratorCustomizing = [];
-  private static enforceTillDeniedProxy: ProxyConstructor;
-  private static enforceRecoverableIfDeniedArguments: DecoratorCustomizing = [];
-  private static enforceRecoverableIfDeniedProxy: ProxyConstructor;
-  private static enforceDropWhileDeniedArguments: DecoratorCustomizing = [];
-  private static enforceDropWhileDeniedProxy: ProxyConstructor;
+  private static readonly enforceTillDeniedArguments: DecoratorCustomizing = [];
+  private static readonly enforceTillDeniedProxy: ProxyConstructor;
+  private static readonly enforceRecoverableIfDeniedArguments: DecoratorCustomizing = [];
+  private static readonly enforceRecoverableIfDeniedProxy: ProxyConstructor;
+  private static readonly enforceDropWhileDeniedArguments: DecoratorCustomizing = [];
+  private static readonly enforceDropWhileDeniedProxy: ProxyConstructor;
   private static bundle: ReactiveConstraintHandlerBundle<any>;
 
   //---------------------------------------------------------------------------------------------------------------------

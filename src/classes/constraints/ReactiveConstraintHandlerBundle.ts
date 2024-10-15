@@ -2,22 +2,22 @@ import { Predicate } from "../Predicate";
 
 export class ReactiveConstraintHandlerBundle<T> {
   constructor(
-    private onDecisionHandlers: () => void,
-    private onCloseHandlers: () => void,
-    private onDataHandlers: () => void,
-    private onEndHandlers: () => void,
-    private onErrorHandlers: () => void,
-    private onPauseHandlers: () => void,
-    private onReadableHandlers: () => void,
-    private onResumeHandlers: () => void,
-    private onSubscribeHandlers: (stream: ReadableStream) => void,
-    private onRequestHandlers: (value: T) => void,
-    private doOnNextHandlers: (value: T) => void,
-    private onNextMapHandlers: (value: T) => void,
-    private doOnErrorHandlers: (error: any) => void,
-    private onErrorMapHandlers: (error) => void,
-    private filterPredicateHandlers: Predicate<object>,
-    private methodInvocationHandlers: (t: unknown) => void
+    private readonly onDecisionHandlers: () => void,
+    private readonly onCloseHandlers: () => void,
+    private readonly onDataHandlers: () => void,
+    private readonly onEndHandlers: () => void,
+    private readonly onErrorHandlers: () => void,
+    private readonly onPauseHandlers: () => void,
+    private readonly onReadableHandlers: () => void,
+    private readonly onResumeHandlers: () => void,
+    private readonly onSubscribeHandlers: (stream: ReadableStream) => void,
+    private readonly onRequestHandlers: (value: T) => void,
+    private readonly doOnNextHandlers: (value: T) => void,
+    private readonly onNextMapHandlers: (value: T) => void,
+    private readonly doOnErrorHandlers: (error: any) => void,
+    private readonly onErrorMapHandlers: (error) => void,
+    private readonly filterPredicateHandlers: Predicate<object>,
+    private readonly methodInvocationHandlers: (t: unknown) => void
   ) {}
 
   /**
