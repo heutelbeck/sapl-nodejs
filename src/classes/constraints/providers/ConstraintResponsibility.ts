@@ -11,11 +11,11 @@ export class ConstraintResponsibility {
    * @returns True if the constraint is responsible for the given type, false otherwise
    */
   public static isResponsible(constraint: any, requiredType: string): boolean {
-    if (constraint == null || !(typeof constraint === "object")) return false;
+    if (constraint == null || typeof constraint !== "object") return false;
 
     const type = constraint[ConstraintResponsibility.TYPE];
 
-    if (type === undefined || !(typeof type === "string")) return false;
+    if (type === undefined || typeof type !== "string") return false;
 
     return requiredType === type;
   }
