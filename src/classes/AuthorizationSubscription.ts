@@ -47,10 +47,10 @@ export class AuthorizationSubscription
     environment?: string
   ) {
     return new AuthorizationSubscription(
-      (subject = subject),
-      (action = action),
-      (resource = resource),
-      (environment = environment)
+      subject,
+      action,
+      resource,
+      environment
     );
   }
 
