@@ -459,7 +459,8 @@ export class ContentFilter {
 
   static getValueByPath(jsonContext: any, path: string): any {
     if (typeof jsonContext === "string") jsonContext = JSON.parse(jsonContext);
-    return path?.split(".").reduce((acc, key) => acc && acc[key], jsonContext);
+    // return path?.split(".").reduce((acc, key) => acc && acc[key], jsonContext);
+    return path?.split(".").reduce((acc, key) => acc?.[key], jsonContext);
   }
 
   static changeValueByPath(
@@ -472,7 +473,8 @@ export class ContentFilter {
     if (!lastKey) return false;
 
     // get the object that contains the last key
-    const lastObj = keys.reduce((acc, key) => acc && acc[key], jsonContext);
+    // const lastObj = keys.reduce((acc, key) => acc && acc[key], jsonContext);
+    const lastObj = keys.reduce((acc, key) => acc?.[key], jsonContext);
 
     if (lastObj && lastKey in lastObj) {
       lastObj[lastKey] = newValue;
