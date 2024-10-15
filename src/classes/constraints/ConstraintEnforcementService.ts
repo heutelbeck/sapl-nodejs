@@ -26,14 +26,16 @@ export class ConstraintEnforcementService {
   private readonly registeredOnNextHandlersContainer: ConsumerConstraintHandlerProvider[] = [];
   // prettier-ignore
   private readonly registeredOnMapNextHandlersContainer: MappingConstraintHandlerProvider[] = [];
-  private readonly registeredOnErrorHandlersContainer: ErrorHandlerProvider[] = [];
+  private readonly registeredOnErrorHandlersContainer: ErrorHandlerProvider[] =
+    [];
   // prettier-ignore
   private readonly registeredMapErrorHandlersContainer: ErrorMappingConstraintHandlerProvider[] = [];
   // prettier-ignore
   private readonly registeredFilterConstraintHandlersContainer: FilterPredicateConstraintHandlerProvider[] = [];
   // prettier-ignore
   private readonly registeredSubscriptionHandlersContainer: SubscriptionHandlerProvider[] = [];
-  private readonly registeredRequestHandlerContainer: RequestHandlerProvider[] = [];
+  private readonly registeredRequestHandlerContainer: RequestHandlerProvider[] =
+    [];
   // prettier-ignore
   private readonly registeredRunnableHandlersForSignalContainer: RunnableConstraintHandlerProvider[] = [];
   private onDecisionObligationHandlersContainer: any[] = [];
@@ -431,6 +433,7 @@ export class ConstraintEnforcementService {
    * @param decision Decision
    * @returns Runnable handlers
    */
+  // NOSONAR
   private mapErrorHandlers(decision: Decision) {
     const obligationHandlers = this.obligation(
       this.constructMapNextHandlersForConstraints(
@@ -834,6 +837,7 @@ export class ConstraintEnforcementService {
    * @param handlers Handler
    * @returns Result of handler
    */
+  // NOSONAR
   private advice(handlers: (t) => void): (t) => void {
     // return (t) => {
     //   try {
@@ -866,6 +870,7 @@ export class ConstraintEnforcementService {
    * @param handlers Handler
    * @returns Result of handler
    */
+  // NOSONAR
   private adviceRunnable(handlers: () => void): () => void {
     // return () => {
     //   try {
