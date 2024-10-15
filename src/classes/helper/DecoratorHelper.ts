@@ -558,7 +558,6 @@ export class DecoratorHelper {
     args.forEach((arg) => {
       if (arg instanceof IncomingMessage) {
         message = arg;
-        return;
       }
     });
     return message;
