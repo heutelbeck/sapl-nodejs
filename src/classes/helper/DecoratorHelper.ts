@@ -27,9 +27,11 @@ export class DecoratorHelper {
   private static postEnforceQueryResult: any;
   private static readonly enforceTillDeniedArguments: DecoratorCustomizing = [];
   private static readonly enforceTillDeniedProxy: ProxyConstructor;
-  private static readonly enforceRecoverableIfDeniedArguments: DecoratorCustomizing = [];
+  private static readonly enforceRecoverableIfDeniedArguments: DecoratorCustomizing =
+    [];
   private static readonly enforceRecoverableIfDeniedProxy: ProxyConstructor;
-  private static readonly enforceDropWhileDeniedArguments: DecoratorCustomizing = [];
+  private static readonly enforceDropWhileDeniedArguments: DecoratorCustomizing =
+    [];
   private static readonly enforceDropWhileDeniedProxy: ProxyConstructor;
   private static bundle: ReactiveConstraintHandlerBundle<any>;
 
@@ -336,8 +338,8 @@ export class DecoratorHelper {
   ) {
     return new WrapperStreamHelper({
       readDataAllowed: false,
-      handleAccessDenied: config?.handleAccessDenied ? true : false,
-      killIfDenied: config?.killIfDenied ? true : false,
+      handleAccessDenied: !!config?.handleAccessDenied,
+      killIfDenied: !!config?.killIfDenied,
     });
   }
 
@@ -345,9 +347,9 @@ export class DecoratorHelper {
     config?: WrapperObservable["wrapperObservableConfig"]
   ) {
     return new WrapperObservableHelper({
-      readDataAllowed: config?.readDataAllowed ? true : false,
-      handleAccessDenied: config?.handleAccessDenied ? true : false,
-      killIfDenied: config?.killIfDenied ? true : false,
+      readDataAllowed: !!config?.readDataAllowed,
+      handleAccessDenied: !!config?.handleAccessDenied,
+      killIfDenied: !!config?.killIfDenied,
     });
   }
 
