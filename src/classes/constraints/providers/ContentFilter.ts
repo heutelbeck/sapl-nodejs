@@ -199,13 +199,13 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    let value = <Number>condition[ContentFilter.VALUE];
+    let value = <number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
       let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
-      return <Number>node >= value;
+      return <number>node >= value;
     });
   }
 
@@ -215,13 +215,13 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    let value = <Number>condition[ContentFilter.VALUE];
+    let value = <number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
       let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
-      return <Number>node <= value;
+      return <number>node <= value;
     });
   }
 
@@ -231,13 +231,13 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    let value = <Number>condition[ContentFilter.VALUE];
+    let value = <number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
       let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
-      return <Number>node < value;
+      return <number>node < value;
     });
   }
 
@@ -247,13 +247,13 @@ export class ContentFilter {
         ContentFilter.NOT_A_VALID_PREDICATE_CONDITION + condition
       );
 
-    let value = <Number>condition[ContentFilter.VALUE];
+    let value = <number>condition[ContentFilter.VALUE];
 
     return new Predicate<object>((original) => {
       path = ContentFilter.findKeyPath(original, path);
       let node = ContentFilter.getValueByPath(original, path);
       if (typeof node !== "number") return false;
-      return <Number>node > value;
+      return <number>node > value;
     });
   }
 
