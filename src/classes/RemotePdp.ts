@@ -196,7 +196,7 @@ export class RemotePdp implements Pdp {
         }
 
         if (response.status === 200) {
-          stream = response.body as NodeJS.ReadableStream;
+          stream = response.body;
         }
 
         if (response.status !== 200) {
@@ -251,7 +251,7 @@ export class RemotePdp implements Pdp {
         }
 
         if (response.status === 200) {
-          stream = response.body as NodeJS.ReadableStream;
+          stream = response.body;
         }
 
         if (response.status !== 200) {
@@ -310,7 +310,7 @@ export class RemotePdp implements Pdp {
           }
 
           if (response.status === 200) {
-            stream = response.body as NodeJS.ReadableStream;
+            stream = response.body;
           }
           if (response.status !== 200) {
             if (process.env.NODE_ENV === "development") {
