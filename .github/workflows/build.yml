@@ -47,3 +47,5 @@ jobs:
         echo "Quality Gate Response: $response"
         status=$(echo $response | jq -r '.projectStatus.status')
         echo "SONAR_STATUS=$status" >> $GITHUB_ENV
+    - name: Print Quality Gate Status
+      run: echo $SONAR_STATUS
