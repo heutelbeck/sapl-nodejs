@@ -41,10 +41,7 @@ jobs:
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
     - name: Check Quality Gate
       id: sonar-quality-gate
-      run: |
-        curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
-          "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs" \
-          | jq -r '.projectStatus.status' > quality_gate_status.txt
+      run: curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs | jq -r '.projectStatus.status' > quality_gate_status.txt
     - name: Read Quality Gate Status
       id: read-quality-gate
       run: echo "Quality Gate Status=$(cat quality_gate_status.txt)" >> $GITHUB_ENV
