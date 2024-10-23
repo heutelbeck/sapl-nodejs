@@ -59,7 +59,7 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - name: Print Quality Gate Status
-        run: echo ${{ needs.build.outputs.SONAR_STATUS_OUTPUT }}"
+        run: echo ${{ needs.build.outputs.SONAR_STATUS_OUTPUT }}
       - run: npm ci
       - run: npm publish --access public
         env:
