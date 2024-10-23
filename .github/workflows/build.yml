@@ -10,11 +10,14 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    outputs:
+      SONAR_STATUS_OUTPUT: ${{ steps.set-output.outputs.SONAR_STATUS_OUTPUT }}
+    env:
+      SONAR_STATUS: "PENDING"
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     strategy:
       matrix:
         node-version: [20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
@@ -40,14 +43,15 @@ jobs:
         status=$(curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
           "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs" | jq -r '.projectStatus.status')
         echo "SONAR_STATUS=$status" >> $GITHUB_ENV
-        echo "::set-output name=sonar_status::$status"
     - name: Print Quality Gate Status
       run: echo $SONAR_STATUS
-
+    - name: Set Output
+      id: set-output
+      run: echo "SONAR_STATUS_OUTPUT=$SONAR_STATUS" >> $GITHUB_ENV
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
-    if: needs.build.outputs.sonar_status == 'OK'
+    if: needs.build.outputs.SONAR_STATUS_OUTPUT == 'OK'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -57,4 +61,4 @@ jobs:
       - run: npm ci
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
