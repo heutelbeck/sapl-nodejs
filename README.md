@@ -27,7 +27,7 @@ Install an appropriate [NodeJs](https://nodejs.org/en) version on your device.
 ```PS
 # install SAPL for NodeJs
 
-npm i sapl-nodejs
+npm i @sapl/sapl-nodejs
 ```
 
 ## **Usage**
