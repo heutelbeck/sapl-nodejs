@@ -39,3 +39,8 @@ jobs:
           -Dsonar.organization=heutelbeck
           -Dsonar.exclusions=**/tests/**,**/*.spec.ts,**/*.test.ts
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+    - name: Check Quality Gate
+      id: check_quality_gate
+      uses: sonarsource/sonarcloud-quality-gate-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
