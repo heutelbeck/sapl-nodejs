@@ -46,4 +46,4 @@ jobs:
       id: read-quality-gate
       run: echo "Quality Gate Status=$(cat quality_gate_status.txt)" >> $GITHUB_ENV
     - name: Print Quality Gate Status
-      run: echo "Quality Gate Status ${{ env.Quality_Gate_Status }}"
+      run: echo "Quality Gate Status ${{ env.QUALITY_GATE_STATUS }}"
