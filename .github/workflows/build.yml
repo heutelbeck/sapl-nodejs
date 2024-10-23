@@ -13,7 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      SONAR_STATUS: "PENDING"
     strategy:
       matrix:
         node-version: [20.x, 22.x]
@@ -45,5 +46,5 @@ jobs:
         response=$(curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
           "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs")
         echo "Quality Gate Response: $response"
-        echo $response | jq -r '.projectStatus.status' > quality_gate_status.txt
-        echo "QUALITY_GATE_STATUS=$(cat quality_gate_status.txt)" >> $GITHUB_ENV
+        echo $response | SONAR_STATUS = jq -r '.projectStatus.status'
+        echo env.SONAR_STATUS
