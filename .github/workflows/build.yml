@@ -42,12 +42,10 @@ jobs:
       run: |
         status=$(curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
           "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs" | jq -r '.projectStatus.status')
-        echo "SONAR_STATUS=$status" >> $GITHUB_ENV
+        echo "Sonar Quality Gate Status: $status"
+        echo "::set-output name=sonar_status::$status"
     - name: Print Quality Gate Status
       run: echo $SONAR_STATUS
-    - name: Set Output
-      id: set-output
-      run: echo "SONAR_STATUS_OUTPUT=$SONAR_STATUS" >> $GITHUB_ENV
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
