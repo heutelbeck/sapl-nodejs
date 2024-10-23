@@ -132,12 +132,128 @@ Various API paths can be addressed via the corresponding methods:
 
 For a more detailed explanation of how constraints work, please refer to the [SAPL documentation](https://sapl.io/documentation).
 
-The central element here is the **ConstraintEnforcementService** class. It searches the project for JavaScript objects that are located in the constraints folder and that have implemented the **ConsumerConstraintHandlerProvider** interface. It is therefore necessary for the obligation and advice handlers to be located in this folder.
+The central element here is the **ConstraintEnforcementService** class. This class is used to register the implemented constraint handler.
 
-For the scanning process to be successful, the project must be linked to the library.
-
-```ps
-cd ./node_modules/sapl-nodejs
-
-npm link [target]
+```TypeScript
+this.pdp
+    .getConstraintEnforcementService()
+    .addOnNextConstraintHandler(new LogConstraintHandlerProvider())
+    .addOnErrorConstraintHandler(new EmailConstraintHandlerProvider())
+    .addMappingConstraintHandler(new CustomReplaceHandlerProvider());
 ```
+
+Depending on the point at which you want to hook in, the corresponding interface must be used. Here are a few example implementations.
+
+<details>
+
+<summary>ConsumerConstraintHandlerProvider</summary>
+
+```TypeScript
+import { ConsumerConstraintHandlerProvider } from '@sapl/sapl-nodejs';
+
+export class LogConstraintHandlerProvider
+  implements ConsumerConstraintHandlerProvider
+{
+    isResponsible(constraint: any): boolean {
+        if (constraint['type'] === 'logAccess') {
+            return true;
+    } else {
+        return false;
+    }
+  }
+
+  getHandler(constraint: object) {
+      return () => {
+          this.log(constraint['message']);
+    };
+  }
+
+  log(message: string) {
+      console.log(message);
+  }
+}
+```
+
+</details>
+<details>
+<summary>ErrorHandlerProvider</summary>
+
+```TypeScript
+import { ErrorHandlerProvider } from '@sapl/sapl-nodejs';
+
+export class EmailConstraintHandlerProvider implements ErrorHandlerProvider {
+  isResponsible(constraint: any): boolean {
+    if (constraint['type'] === 'sendMail') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getHandler(constraint: object) {
+    return () => {
+      this.sendEmail(
+        constraint['recipient'],
+        constraint['subject'],
+        constraint['message'],
+      );
+    };
+  }
+
+  sendEmail(recipient: string, subject: string, message: string) {
+    console.log(
+      'Sending email to ' +
+        recipient +
+        ' with subject ' +
+        subject +
+        ' and message ' +
+        message,
+    );
+  }
+}
+```
+
+</details>
+<details>
+<summary>MappingConstraintHandlerProvider</summary>
+
+```TypeScript
+import { HasPriority } from '@sapl/sapl-nodejs';
+import { MappingConstraintHandlerProvider } from '@sapl/sapl-nodejs';
+
+export class CustomReplaceHandlerProvider
+  implements MappingConstraintHandlerProvider
+{
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getHandler(constraint: object) {
+    const customReplaceConfig = constraint;
+    return (content) => {
+      return this.customReplaceHandler(content, customReplaceConfig);
+    };
+  }
+  isResponsible(constraint: object): boolean {
+    if (constraint['type'] === 'customReplace') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  getPriority(): number {
+    return 0;
+  }
+  compareTo(other: HasPriority): number {
+    return other.getPriority() < this.getPriority()
+      ? -1
+      : other.getPriority() === this.getPriority()
+        ? 0
+        : 1;
+  }
+
+  customReplaceHandler(content: any, constraint: object) {
+    content.data.diagnosis = constraint['replacement'];
+    return content;
+  }
+}
+```
+
+</details>
