@@ -40,7 +40,11 @@ jobs:
           -Dsonar.exclusions=**/tests/**,**/*.spec.ts,**/*.test.ts
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
     - name: Check Quality Gate
-      id: check_quality_gate
-      uses: sonarsource/sonarcloud-quality-gate-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      id: sonar-quality-gate
+      run: |
+        curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
+          "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs" \
+          | jq -r '.projectStatus.status' > quality_gate_status.txt
+    - name: Read Quality Gate Status
+      id: read-quality-gate
+      run: echo "Quality Gate Status=$(cat quality_gate_status.txt)" >> $GITHUB_ENV
