@@ -1,6 +1,7 @@
 {
   "name": "@sapl/sapl-nodejs",
   "version": "0.1.0",
+  "private": false,
   "description": "SAPL Node.js library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
