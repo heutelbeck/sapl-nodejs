@@ -61,6 +61,7 @@ jobs:
       - name: Print Quality Gate Status
         run: echo ${{ needs.build.outputs.SONAR_STATUS_OUTPUT }}
       - run: npm ci
+      - run: npm run build --if-present
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
