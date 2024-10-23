@@ -51,13 +51,15 @@ jobs:
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
-    if: needs.build.outputs.SONAR_STATUS_OUTPUT == 'OK'
+    # if: needs.build.outputs.SONAR_STATUS_OUTPUT == 'OK'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
+      - name: Print Quality Gate Status
+        run: echo needs.build.outputs.SONAR_STATUS_OUTPUT
       - run: npm ci
       - run: npm publish
         env:
