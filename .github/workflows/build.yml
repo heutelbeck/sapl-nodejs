@@ -42,10 +42,8 @@ jobs:
     - name: Check Quality Gate
       id: sonar-quality-gate
       run: |
-        response=$(curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
-          "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs")
-        echo "Quality Gate Response: $response"
-        status=$(echo $response | jq -r '.projectStatus.status')
+        status=$(curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
+          "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs" | jq -r '.projectStatus.status')
         echo "SONAR_STATUS=$status" >> $GITHUB_ENV
     - name: Print Quality Gate Status
       run: echo $SONAR_STATUS
