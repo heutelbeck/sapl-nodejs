@@ -38,19 +38,19 @@ A prerequisite for using SAPL in NodeJs is one of the SAPL servers listed:
 
 - [Server LT](https://github.com/heutelbeck/sapl-policy-engine/tree/master/sapl-server-lt)
 - [Server CE](https://github.com/heutelbeck/sapl-server)
-- [Server EE](https://github.com/heutelbeck/sapl-server-ee)
+- Server EE (This is made available via sapl.io and demos can be requested)
 
 ### **Decorators**
 
 The SAPL client provides 5 decorators that can be used in the coding.
 
-- [PreEnforce](./src/decorators/PreEnforce.ts)
-- [PostEnforce](./src/decorators/PostEnforce.ts.ts)
-- [EnforceTillDenied](./src/decorators/EnforceTillDenied.ts)
-- [EnforceDropWhileDenied](./src/decorators/EnforceDropWhileDenied.ts)
-- [EnforceRecoverableIfDenied](./src/decorators/EnforceRecoverableIfDenied.ts)
+- [PreEnforce](./src/decorators/nestjs/PreEnforce.ts)
+- [PostEnforce](./src/decorators/nestjs/PostEnforce.ts.ts)
+- [EnforceTillDenied](./src/decorators/nestjs/EnforceTillDenied.ts)
+- [EnforceDropWhileDenied](./src/decorators/nestjs/EnforceDropWhileDenied.ts)
+- [EnforceRecoverableIfDenied](./src/decorators/nestjs/EnforceRecoverableIfDenied.ts)
 
-There are also framework-specific versions of these generally valid decorators (e.g. [NestJs](./src/decorators/nestjs/)), as the response handling is different. For a more detailed explanation of the decorators, please refer to the [SAPL documentation](https://sapl.io/documentation).
+For a more detailed explanation of the decorators, please refer to the [SAPL documentation](https://sapl.io/documentation).
 
 ### **Use of decorators**
 
@@ -62,7 +62,7 @@ public pdp: RemotePdp;
 this.pdp = RemotePdp.create().host('https://localhost').port(8443);
 ```
 
-After the global deployment of the PDP, it can be used for specific credentials or users.
+After the instantiation of the PDP, it can be used for specific credentials or users.
 
 ```TypeScript
 // simple example of a login routine
