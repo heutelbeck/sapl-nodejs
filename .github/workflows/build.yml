@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     outputs:
-      SONAR_STATUS_OUTPUT: ${{ steps.set-output.outputs.SONAR_STATUS_OUTPUT }}
+      sonar_status_output: ${{ steps.set-output.outputs.sonar_status_output }}
     env:
       SONAR_STATUS: "PENDING"
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -43,12 +43,17 @@ jobs:
         status=$(curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
           "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs" | jq -r '.projectStatus.status')
         echo "Sonar Quality Gate Status: $status"
-        echo "::set-output name=sonar_status::$status"
+    - name: set output
+      id: set-output
+      run: echo "sonar_status_output=$status" >> $GITHUB_OUTPUT
     - name: Print Quality Gate Status
       run: echo $SONAR_STATUS
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      SONAR_STATUS: "${{ needs.build.outputs.sonar_status_output }}"
+      SONAR_STATUS2: "${{ needs.build.set-output.outputs.sonar_status_output }}"
     # if: needs.build.outputs.SONAR_STATUS_OUTPUT == 'OK'
     steps:
       - uses: actions/checkout@v4
@@ -57,9 +62,11 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org/
       - name: Print Quality Gate Status
-        run: echo ${{ needs.build.outputs.SONAR_STATUS_OUTPUT }}
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        run: echo $SONAR_STATUS
+      - name: Print Quality Gate Status 2
+        run: echo $SONAR_STATUS2
+      # - run: npm ci
+      # - run: npm run build --if-present
+      # - run: npm publish --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
