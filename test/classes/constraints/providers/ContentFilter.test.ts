@@ -161,13 +161,18 @@ describe("ContentFilter", () => {
           objectMapper
         );
 
-      const transformedReplacePayload = replaceHandler(payload);
+      const transformedReplacePayload = replaceHandler([
+        { data: { foo: "bar", baz: "hello" } },
+        { data: { foo: "qux", baz: "hello" } },
+      ]);
       const transformedBlackenPayload = blackenHandler(payload);
       const transformedDeletePayload = deleteHandler(payload);
 
-      expect(transformedReplacePayload).toEqual({
-        data: { foo: "bar", baz: "qux" },
-      });
+      expect(transformedReplacePayload).toEqual([
+        {
+          data: { foo: "bar", baz: "qux" },
+        },
+      ]);
       expect(transformedBlackenPayload).toEqual({
         data: { foo: "ba█", baz: "███lo" },
       });

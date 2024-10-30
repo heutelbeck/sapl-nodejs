@@ -1,0 +1,66 @@
+name: Node.js Package
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    outputs:
+      sonar_status_output: ${{ steps.set-output.outputs.sonar_status_output }}
+    env:
+      SONAR_STATUS: "PENDING"
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@4006f663ecaf1f8093e8e4abb9227f6041f52216
+      with:
+        args: >
+          -Dsonar.projectKey=heutelbeck_sapl-nodejs
+          -Dsonar.organization=heutelbeck
+          -Dsonar.exclusions=**/tests/**,**/*.spec.ts,**/*.test.ts
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+    - name: Check Quality Gate
+      id: sonar-quality-gate
+      run: |
+        status=$(curl -sS -u ${{ secrets.SONAR_TOKEN }}: \
+          "https://sonarcloud.io/api/qualitygates/project_status?projectKey=heutelbeck_sapl-nodejs" | jq -r '.projectStatus.status')
+        if [ "$status" != "OK" ]; then
+          echo "Quality gate failed: $status"
+          exit 1  # Bricht den Job mit einem Fehlercode ab
+        fi
+        echo "SONAR_STATUS=$status" >> $GITHUB_ENV
+    - name: Print Quality Gate Status
+      run: echo $SONAR_STATUS
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

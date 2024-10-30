@@ -102,6 +102,7 @@ export class ContentFilter {
       );
 
     let path = condition[ContentFilter.PATH];
+    path = path.replace("$.", "");
     let type = condition[ContentFilter.TYPE];
 
     if (type === ContentFilter.EQUALS)
@@ -287,9 +288,11 @@ export class ContentFilter {
       if (!payload) {
         return payload;
       } else if (Array.isArray(payload)) {
-        return payload.map((element) =>
-          this.mapElement(element, transformation, predicate)
-        );
+        return payload
+          .map((element) => this.mapElement(element, transformation, predicate))
+          .filter((element) => {
+            if (element !== null) return element;
+          });
       }
 
       return this.mapElement(payload, transformation, predicate);
@@ -626,6 +629,5 @@ export class ContentFilter {
     predicate: any
   ) {
     if (predicate.test(payload)) return transformation(payload);
-    return payload;
   }
 }
