@@ -45,10 +45,25 @@ A prerequisite for using SAPL in NodeJs is one of the SAPL servers listed:
 The SAPL client provides 5 decorators that can be used in the coding.
 
 - [PreEnforce](./src/decorators/nestjs/PreEnforce.ts)
-- [PostEnforce](./src/decorators/nestjs/PostEnforce.ts.ts)
+- [PostEnforce](./src/decorators/nestjs/PostEnforce.ts)
 - [EnforceTillDenied](./src/decorators/nestjs/EnforceTillDenied.ts)
 - [EnforceDropWhileDenied](./src/decorators/nestjs/EnforceDropWhileDenied.ts)
 - [EnforceRecoverableIfDenied](./src/decorators/nestjs/EnforceRecoverableIfDenied.ts)
+
+#### PreEnforce
+
+The [@PreEnforce](./src/decorators/nestjs/PreEnforce.ts) annotation establishes a policy enforcement point (PEP) before the invocation of the annotated method.
+
+#### PostEnforce
+
+The [@PostEnforce](./src/decorators/nestjs/PostEnforce.ts) annotation establishes a policy enforcement point (PEP) after the invocation of the annotated method, and alters the return value if indicated by the policy decision point (PDP), if possible based on the structure of the returned JSON object.
+
+#### EnforceTillDenied, EnforceDropWhileDenied and EnforceRecoverableIfDenied
+
+The [@EnforceTillDenied](./src/decorators/nestjs/EnforceTillDenied.ts), [@EnforceDropWhileDenied](./src/decorators/nestjs/EnforceDropWhileDenied.ts) and [@EnforceRecoverableIfDenied](./src/decorators/nestjs/EnforceRecoverableIfDenied.ts) annotations establishes a policy enforcement point (PEP) for data streams. The PEP is only applicable to methods returning a 
+- [Readable Stream](https://nodejs.org/api/stream.html#readable-streams) or a
+- [Observable](https://rxjs.dev/guide/observable)
+
 
 For a more detailed explanation of the decorators, please refer to the [SAPL documentation](https://sapl.io/documentation).
 
@@ -59,7 +74,11 @@ The decorators supplied are method decorators. In order for the decorators to wo
 ```TypeScript
 public pdp: RemotePdp;
 
-this.pdp = RemotePdp.create().host('https://localhost').port(8443);
+this.pdp = RemotePdp
+            .create()
+            .host('https://localhost')
+            .port(8443)
+            .setAuthorizationManager("http://localhost:3000/user");
 ```
 
 After the instantiation of the PDP, it can be used for specific credentials or users.
@@ -77,13 +96,18 @@ if (user) {
       .bearerToken(userAuth.sapl_token) // token for SAPL server authorization
       .setUsername(user.username); // username for name of the subject
 
+    // alternative variant if not accessed via token
+    serviceHandler
+      .getRemotePdp()
+      .basicAuth("username", "password")
 }
 ```
+### **Authorization Manager**
 
-The **PDP** must also be provided with the user's authorizations. The **Authorization Manager** must be set for this.
+As already shown earlier the **PDP** must also be provided with the user's authorizations. The **Authorization Manager** must be set for this.
 
 ```TypeScript
-this.pdp.setAuthorizationManager('http://localhost:3000/users/1/roles');
+this.pdp.setAuthorizationManager('http://localhost:3000/user');
 ```
 
 The result of the service should be an array with the authorizations.
@@ -128,9 +152,9 @@ Various API paths can be addressed via the corresponding methods:
 - **decideOnce**
 - **multiDecide**
 
-### **Constraint Handling**
+For a more detailed explanation of the different API endpoints, please refer to the [SAPL documentation](https://sapl.io/documentation).
 
-For a more detailed explanation of how constraints work, please refer to the [SAPL documentation](https://sapl.io/documentation).
+### **Constraint Handling**
 
 The central element here is the **ConstraintEnforcementService** class. This class is used to register the implemented constraint handler.
 
@@ -257,3 +281,7 @@ export class CustomReplaceHandlerProvider
 ```
 
 </details>
+
+<br>
+
+For a more detailed explanation of how constraints work, please refer to the [SAPL documentation](https://sapl.io/documentation).
