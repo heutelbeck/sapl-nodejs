@@ -133,6 +133,7 @@ export class RemotePdp implements Pdp {
    */
   public basicAuth(username: string, password: string) {
     this.username = username;
+    this.authorizationManager?.setSubjectName(username);
     this.password = password;
     return this;
   }
