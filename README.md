@@ -18,6 +18,16 @@
 
 This project provides a client that enables the integration of SAPL in NodeJs.
 
+## What is SAPL
+
+SAPL is a further development of ABAC that uses a publish/subscribe model in addition to the classic request-response model. 
+
+When a client sends a authorization subscription to the Policy Decision Point (PDP), it receives either a simple response or a data stream of decisions. If the result of the authorization decision changes, this is communicated immediately via the data stream.
+
+### What SAPL looks like in Node.js
+
+The SAPL-Node.js package handles the enforcement of policies and related decisions in the background, allowing developers to focus on policy creation. Comprehensive SAPL documentation can be found [here](https://sapl.io/documentation), including a playground for writing policies.
+
 ## **Installation preparations**
 
 Install an appropriate [NodeJs](https://nodejs.org/en) version on your device.
@@ -156,7 +166,9 @@ For a more detailed explanation of the different API endpoints, please refer to 
 
 ### **Constraint Handling**
 
-The central element here is the **ConstraintEnforcementService** class. This class is used to register the implemented constraint handler.
+Upon receipt of the decision from the PDP, it can be linked to constraints that can be categorized either as obligations or as advice. obligations must be fulfilled, otherwise an PERMIT will be a DENY. Advices should be fulfilled but have no influence on the decision made, even if they are not fulfilled.
+
+To handle these constraints, the library provides a class called **ConstraintEnforcementService** that can manage them. This class is used to register the implemented constraint handler.
 
 ```TypeScript
 this.pdp
