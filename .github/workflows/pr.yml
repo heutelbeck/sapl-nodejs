@@ -1,7 +1,7 @@
-name: Node.js Package
+name: Node.js PR
 
 on:
-  push:
+  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -47,18 +47,3 @@ jobs:
         echo "SONAR_STATUS=$status" >> $GITHUB_ENV
     - name: Print Quality Gate Status
       run: echo $SONAR_STATUS
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

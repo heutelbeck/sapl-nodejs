@@ -242,4 +242,22 @@ describe("AuthorizationSubscriptionBuilderService", () => {
     //@ts-expect-error property will be created
     expect(result.getAction().value).toBe("test");
   });
+
+  it("should handle undefined authorizationManager", async () => {
+    const methodName = "testMethod";
+    const decoratorProxy = {};
+
+    const result =
+      await AuthorizationSubscriptionBuilderService.buildAuthorizationSubscription(
+        undefined,
+        methodName,
+        decoratorArguments,
+        message,
+        decoratorProxy
+      );
+
+    expect(result).toBeInstanceOf(AuthorizationSubscription);
+    expect(result.getSubject().name).not.toBeUndefined();
+
+  });
 });
