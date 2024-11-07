@@ -114,7 +114,7 @@ if (user) {
 ```
 ### **Authorization Manager**
 
-As already shown earlier the **PDP** must also be provided with the user's authorizations. The **Authorization Manager** must be set for this.
+As already shown earlier the **PDP** can also be provided with the user's authorizations. The **Authorization Manager** must be set for this.
 
 ```TypeScript
 this.pdp.setAuthorizationManager('http://localhost:3000/user');

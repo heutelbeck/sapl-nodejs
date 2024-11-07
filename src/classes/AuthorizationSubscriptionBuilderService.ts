@@ -36,7 +36,7 @@ export class AuthorizationSubscriptionBuilderService {
    * @returns The authorization subscription.
    */
   public static async buildAuthorizationSubscription(
-    authorizationManager: AuthorizationManager,
+    authorizationManager: AuthorizationManager | undefined,
     methodName: any,
     decoratorArguments: DecoratorCustomizing,
     message: IncomingMessage,
@@ -144,9 +144,11 @@ export class AuthorizationSubscriptionBuilderService {
     message: IncomingMessage
   ) {
     let subject =
-      await authorizationManager.buildSubjectForAuhorizationSubscription();
-
-    if (subject.name === undefined) {
+      await authorizationManager?.buildSubjectForAuhorizationSubscription();
+    if (subject === undefined) {
+      subject = { name: undefined, roles: [] };
+    }
+    if (subject?.name === undefined) {
       subject.name = OsHelper.getOsUsername();
     }
 

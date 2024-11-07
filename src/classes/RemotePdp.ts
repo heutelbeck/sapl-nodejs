@@ -83,7 +83,7 @@ export class RemotePdp implements Pdp {
    */
   public setUsername(username: string) {
     this.username = username;
-    this.authorizationManager.setSubjectName(username);
+    this.authorizationManager?.setSubjectName(username);
     return this;
   }
 
