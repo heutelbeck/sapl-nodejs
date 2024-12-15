@@ -148,7 +148,7 @@ export class AuthorizationSubscriptionBuilderService {
     if (subject === undefined) {
       subject = { name: undefined, roles: [] };
     }
-    if (subject?.name === undefined) {
+    if (subject.name === undefined) {
       subject.name = OsHelper.getOsUsername();
     }
 

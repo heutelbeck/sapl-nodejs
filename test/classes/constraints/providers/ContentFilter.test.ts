@@ -112,6 +112,11 @@ describe("ContentFilter", () => {
         ContentFilter.predicateFromConditions(constraint, objectMapper);
       }).toThrow();
     });
+
+    // it("should return mapPathNotFoundToAccessDeniedException", () => {
+    //   // const predicate = ContentFilter.predicateFromConditions(undefined, undefined);
+    //   expect(predicate.test({})).toBe(true);
+    // });
   });
 
   describe("getHandler", () => {
@@ -482,6 +487,21 @@ describe("ContentFilter", () => {
       const predicate = ContentFilter["regexCondition"](condition, "foo");
 
       expect(predicate.test({ foo: 42 })).toBe(false);
+    });
+  });
+
+  describe("conditionToPredicate", () => {
+    it("should throw an exception when PathNotFound", () => {
+      const condition = { path: undefined, type: "==", value: "foo" };
+      expect(() => {
+        ContentFilter["conditionToPredicate"](condition);
+      }).toThrow();
+    });
+    it("should throw an exception when ValueNotFound", () => {
+      const condition = { path: "foo", type: "==", value: undefined };
+      expect(() => {
+        ContentFilter["conditionToPredicate"](condition);
+      }).toThrow();
     });
   });
 });

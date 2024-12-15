@@ -159,7 +159,7 @@ export class DecoratorHelper {
    * Get the proxy class of the EnforceTillDenied base class reference
    * @returns The proxy class
    */
-  public static getEnforceTillDeniedProxy(originalMethodName: string) {
+  public static getEnforceTillDeniedProxy() {
     return DecoratorHelper.enforceTillDeniedProxy;
   }
 

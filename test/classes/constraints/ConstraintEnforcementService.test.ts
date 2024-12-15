@@ -15,6 +15,9 @@ import { Predicate } from "../../../src/classes/Predicate";
 import { SubscriptionHandlerProvider } from "../../../src/interfaces/constraints/SubscriptionHandlerProvider";
 import { RequestHandlerProvider } from "../../../src/interfaces/constraints/RequestHandlerProvider";
 import { Decision } from "../../../src/classes/Decision";
+import { FunctionUtil } from "../../../src/classes/constraints/FunctionUtil";
+import { get } from "http";
+import { getHeapSnapshot } from "v8";
 describe("ConstraintEnforcementService", () => {
   let service: ConstraintEnforcementService;
 
@@ -516,5 +519,37 @@ describe("ConstraintEnforcementService", () => {
         })
       );
     }).toThrowError("Unhandled obligations");
+  });
+
+  it("should return a sink function when resource is an empty string", () => {
+    const resource = "";
+    const handler = service["replaceHandler"](resource);
+    expect(handler).not.toBeUndefined();
+  });
+
+  it("should return a constructSubscriptionHandler function", () => {
+    service["subscriptionHandlersContainer"] = [
+      { isResponsible: () => true, getHandler: () => {} },
+      { isResponsible: () => true, getHandler: () => {} },
+    ];
+    const constraints = [{ type: "test" }, { type: "test2" }];
+    const handler = service["constructSubscriptionHandlersForConstraints"](
+      constraints,
+      () => {}
+    );
+    expect(handler).not.toBeUndefined();
+  });
+
+  it("should return a constructRequestHandler function", () => {
+    service["requestHandlerContainer"] = [
+      { isResponsible: () => true, getHandler: () => {} },
+      { isResponsible: () => true, getHandler: () => {} },
+    ];
+    const constraints = [{ type: "test" }, { type: "test2" }];
+    const handler = service["constructRequestHandlersForConstraints"](
+      constraints,
+      () => {}
+    );
+    expect(handler).not.toBeUndefined();
   });
 });

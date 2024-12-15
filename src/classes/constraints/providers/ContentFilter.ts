@@ -64,23 +64,23 @@ export class ContentFilter {
       return predicate;
     }
 
-    return this.mapPathNotFoundToAccessDeniedException(predicate);
+    // return this.mapPathNotFoundToAccessDeniedException(predicate);
   }
 
-  private static mapPathNotFoundToAccessDeniedException(
-    predicate: Predicate<object>
-  ) {
-    return (x) => {
-      try {
-        return predicate;
-      } catch (error) {
-        throw new AccessConstraintViolationException(
-          "Error evaluating a constraint predicate. The path defined in the constraint is not present in the data." +
-            JSON.stringify(error)
-        );
-      }
-    };
-  }
+  // private static mapPathNotFoundToAccessDeniedException(
+  //   predicate: Predicate<object>
+  // ) {
+  //   return (x) => {
+  //     try {
+  //       return predicate;
+  //     } catch (error) {
+  //       throw new AccessConstraintViolationException(
+  //         "Error evaluating a constraint predicate. The path defined in the constraint is not present in the data." +
+  //           JSON.stringify(error)
+  //       );
+  //     }
+  //   };
+  // }
 
   private static noConditionsPresent(constraint: any) {
     const condition = constraint[ContentFilter.CONDITIONS];

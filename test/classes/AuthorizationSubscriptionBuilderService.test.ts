@@ -258,6 +258,110 @@ describe("AuthorizationSubscriptionBuilderService", () => {
 
     expect(result).toBeInstanceOf(AuthorizationSubscription);
     expect(result.getSubject().name).not.toBeUndefined();
-
   });
+});
+it("should replace subject values with corresponding action values", () => {
+  const subject = { key1: "value1", key2: "value2" };
+  const action = { value1: "newValue1", value2: "newValue2" };
+  const resource = {};
+
+  AuthorizationSubscriptionBuilderService["checkForValueInOtherObject"](
+    subject,
+    action,
+    resource
+  );
+
+  expect(subject.key1).toBe("newValue1");
+  expect(subject.key2).toBe("newValue2");
+});
+
+it("should replace subject values with corresponding resource values", () => {
+  const subject = { key1: "value1", key2: "value2" };
+  const action = {};
+  const resource = { value1: "newValue1", value2: "newValue2" };
+
+  AuthorizationSubscriptionBuilderService["checkForValueInOtherObject"](
+    subject,
+    action,
+    resource
+  );
+
+  expect(subject.key1).toBe("newValue1");
+  expect(subject.key2).toBe("newValue2");
+});
+
+it("should replace action values with corresponding subject values", () => {
+  const subject = { value1: "newValue1", value2: "newValue2" };
+  const action = { key1: "value1", key2: "value2" };
+  const resource = {};
+
+  AuthorizationSubscriptionBuilderService["checkForValueInOtherObject"](
+    subject,
+    action,
+    resource
+  );
+
+  expect(action.key1).toBe("newValue1");
+  expect(action.key2).toBe("newValue2");
+});
+
+it("should replace action values with corresponding resource values", () => {
+  const subject = {};
+  const action = { key1: "value1", key2: "value2" };
+  const resource = { value1: "newValue1", value2: "newValue2" };
+
+  AuthorizationSubscriptionBuilderService["checkForValueInOtherObject"](
+    subject,
+    action,
+    resource
+  );
+
+  expect(action.key1).toBe("newValue1");
+  expect(action.key2).toBe("newValue2");
+});
+
+it("should replace resource values with corresponding subject values", () => {
+  const subject = { value1: "newValue1", value2: "newValue2" };
+  const action = {};
+  const resource = { key1: "value1", key2: "value2" };
+
+  AuthorizationSubscriptionBuilderService["checkForValueInOtherObject"](
+    subject,
+    action,
+    resource
+  );
+
+  expect(resource.key1).toBe("newValue1");
+  expect(resource.key2).toBe("newValue2");
+});
+
+it("should replace resource values with corresponding action values", () => {
+  const subject = {};
+  const action = { value1: "newValue1", value2: "newValue2" };
+  const resource = { key1: "value1", key2: "value2" };
+
+  AuthorizationSubscriptionBuilderService["checkForValueInOtherObject"](
+    subject,
+    action,
+    resource
+  );
+
+  expect(resource.key1).toBe("newValue1");
+  expect(resource.key2).toBe("newValue2");
+});
+
+it("should not replace values if no corresponding key is found", () => {
+  const subject = { key1: "value1" };
+  const action = { key2: "value2" };
+  const resource = { key3: "value3" };
+
+  AuthorizationSubscriptionBuilderService["checkForValueInOtherObject"](
+    subject,
+    action,
+    resource
+  );
+
+  expect(subject.key1).toBe("value1");
+  expect(action.key2).toBe("value2");
+  expect(resource.key3).toBe("value3");
 });

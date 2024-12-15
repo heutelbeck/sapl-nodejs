@@ -1,4 +1,4 @@
-import { createServer, Server, ServerResponse } from "http";
+import { createServer, IncomingMessage, Server, ServerResponse } from "http";
 import { RemotePdp } from "../../../src/classes/RemotePdp";
 import { DecoratorHelper } from "../../../src/classes/helper/DecoratorHelper";
 import {
@@ -16,6 +16,7 @@ import { Decision } from "../../../src/classes/Decision";
 import { Observable, Subscriber } from "rxjs";
 import { Frameworks } from "../../../src/interfaces/Frameworks";
 import { AccessDeniedException } from "../../../src/classes/constraints/providers/AccessDeniedException";
+import { Socket } from "net";
 
 let server: Server;
 let stream: Readable;
@@ -99,6 +100,16 @@ describe("sendNotApplicableResponse", () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.end).not.toHaveBeenCalled();
+  });
+});
+
+describe("searchForIncomingMessage", () => {
+  it("should return the incoming message if it is found", () => {
+    const incomingMessage = new IncomingMessage(new Socket()),
+      args = [incomingMessage, "arg2", "arg3"],
+      result = DecoratorHelper.searchForIncommingMessage(args);
+
+    expect(result).toBe(incomingMessage);
   });
 });
 
@@ -312,5 +323,172 @@ describe("attachStreamError", () => {
         let data = value;
       });
     });
+  });
+});
+
+describe("getPreEnforceArguments", () => {
+  it("should return the custom PreEnforce Arguments for the given method name", () => {
+    const propertyKey = "testMethod";
+    const args = ["arg1", "arg2"];
+    DecoratorHelper.setPreEnforceArguments(propertyKey, args);
+
+    const result = DecoratorHelper.getPreEnforceArguments(propertyKey);
+
+    expect(result).toEqual([
+      {
+        propertyKey: propertyKey,
+        customizing: args,
+      },
+    ]);
+  });
+
+  it("should return an empty array if no arguments are set for the given method name", () => {
+    const result = DecoratorHelper.getPreEnforceArguments("nonExistentMethod");
+
+    expect(result).toEqual([]);
+  });
+});
+
+describe("getPostEnforceArguments", () => {
+  it("should return the custom PostEnforce Arguments for the given method name", () => {
+    const propertyKey = "testMethod";
+    const args = ["arg1", "arg2"];
+    DecoratorHelper.setPostEnforceArguments(propertyKey, args);
+
+    const result = DecoratorHelper.getPostEnforceArguments(propertyKey);
+
+    expect(result).toEqual([
+      {
+        propertyKey: propertyKey,
+        customizing: args,
+      },
+    ]);
+  });
+
+  it("should return an empty array if no arguments are set for the given method name", () => {
+    const result = DecoratorHelper.getPostEnforceArguments("nonExistentMethod");
+
+    expect(result).toEqual([]);
+  });
+});
+
+describe("EnforceDropWhileDeniedArguments", () => {
+  it("should return the custom PostEnforce Arguments for the given method name", () => {
+    const propertyKey = "testMethod";
+    const args = ["arg1", "arg2"];
+    DecoratorHelper.setEnforceDropWhileDeniedArguments(propertyKey, args);
+
+    const result =
+      DecoratorHelper.getEnforceDropWhileDeniedArguments(propertyKey);
+
+    expect(result).toEqual([
+      {
+        propertyKey: propertyKey,
+        customizing: args,
+      },
+    ]);
+  });
+
+  it("should return an empty array if no arguments are set for the given method name", () => {
+    const result =
+      DecoratorHelper.getEnforceDropWhileDeniedArguments("nonExistentMethod");
+
+    expect(result).toEqual([]);
+  });
+});
+
+describe("EnforceTillDeniedArguments", () => {
+  it("should return the custom PostEnforce Arguments for the given method name", () => {
+    const propertyKey = "testMethod";
+    const args = ["arg1", "arg2"];
+    DecoratorHelper.setEnforceTillDeniedArguments(propertyKey, args);
+
+    const result = DecoratorHelper.getEnforceTillDeniedArguments(propertyKey);
+
+    expect(result).toEqual([
+      {
+        propertyKey: propertyKey,
+        customizing: args,
+      },
+    ]);
+  });
+
+  it("should return an empty array if no arguments are set for the given method name", () => {
+    const result =
+      DecoratorHelper.getEnforceTillDeniedArguments("nonExistentMethod");
+
+    expect(result).toEqual([]);
+  });
+});
+
+describe("EnforceRecoverableIfDeniedArguments", () => {
+  it("should return the custom PostEnforce Arguments for the given method name", () => {
+    const propertyKey = "testMethod";
+    const args = ["arg1", "arg2"];
+    DecoratorHelper.setEnforceRecoverableIfDeniedArguments(propertyKey, args);
+
+    const result =
+      DecoratorHelper.getEnforceRecoverableIfDeniedArguments(propertyKey);
+
+    expect(result).toEqual([
+      {
+        propertyKey: propertyKey,
+        customizing: args,
+      },
+    ]);
+  });
+
+  it("should return an empty array if no arguments are set for the given method name", () => {
+    const result =
+      DecoratorHelper.getEnforceDropWhileDeniedArguments("nonExistentMethod");
+
+    expect(result).toEqual([]);
+  });
+});
+
+describe("get Proxys", () => {
+  it("should return the preEnforceProxy", () => {
+    const proxy = DecoratorHelper.getPreEnforxceProxy();
+    expect(proxy).toBe(DecoratorHelper["preEnforceProxy"]);
+  });
+  it("should return the preEnforceProxy", () => {
+    const proxy = DecoratorHelper.getPostEnforceProxy();
+    expect(proxy).toBe(DecoratorHelper["postEnforceProxy"]);
+  });
+  it("should return the preEnforceProxy", () => {
+    const proxy = DecoratorHelper.getEnforceDropWhileDeniedProxy();
+    expect(proxy).toBe(DecoratorHelper["enforceDropWhileDeniedProxy"]);
+  });
+  it("should return the preEnforceProxy", () => {
+    const proxy = DecoratorHelper.getEnforceRecoverableIfDeniedProxy();
+    expect(proxy).toBe(DecoratorHelper["enforceRecoverableIfDeniedProxy"]);
+  });
+  it("should return the preEnforceProxy", () => {
+    const proxy = DecoratorHelper.getEnforceTillDeniedProxy();
+    expect(proxy).toBe(DecoratorHelper["enforceTillDeniedProxy"]);
+  });
+});
+describe("sendIndeterminateResponse", () => {
+  it("should set the status code to 404", () => {
+    const response = new ServerResponse({
+      statusCode: 200,
+      end: jest.fn(),
+    } as any);
+
+    DecoratorHelper.sendIndeterminateResponse([response]);
+
+    expect(response.statusCode).toBe(404);
+  });
+
+  it("should not modify the response if it is not an instance of ServerResponse", () => {
+    const response = {
+      statusCode: 200,
+      end: jest.fn(),
+    };
+
+    DecoratorHelper.sendIndeterminateResponse([response, "not a response"]);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.end).not.toHaveBeenCalled();
   });
 });

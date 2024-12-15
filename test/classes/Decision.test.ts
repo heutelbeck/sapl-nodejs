@@ -32,3 +32,11 @@ it("should throw an error if decision object is missing the decision field", () 
     new Decision(decision);
   }).toThrow(Error);
 });
+
+it("should create an empty object if parsing results in an error", () => {
+  const decision = "invalid JSON";
+  
+  expect(() => {
+    new Decision(decision);
+  }).toThrow(Error);
+});

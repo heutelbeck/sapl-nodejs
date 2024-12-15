@@ -108,4 +108,28 @@ describe("AuthorizationManager", () => {
       }
     });
   });
+describe("AuthorizationManager", () => {
+  describe("_requestAuthorization", () => {
+    it("should return roles when authorization is successful", async () => {
+      const path = "http://localhost:4002/example/path",
+        subjectName = "subject",
+        authorizationManager = new AuthorizationManager(path);
+      authorizationManager.setSubjectName(subjectName);
+
+      const response = await authorizationManager["_requestAuthorization"]();
+      expect(response).toEqual(["role1", "role2", "role3"]);
+    });
+
+    it("should throw an error when authorization fails", async () => {
+      const path = "http://localhost:4003/example/path",
+        subjectName = "subject",
+        authorizationManager = new AuthorizationManager(path);
+      authorizationManager.setSubjectName(subjectName);
+
+      await expect(authorizationManager["_requestAuthorization"]()).rejects.toThrow(
+        "Authorization failed."
+      );
+    });
+  });
+});
 });
